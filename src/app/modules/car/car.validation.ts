@@ -15,6 +15,22 @@ const createCarSchema = z.object({
   }),
 });
 
+const updateCarSchema = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    description: z.string().optional(),
+    color: z.string().optional(),
+    isElectric: z.boolean().optional(),
+    status: z.string().optional(),
+    features: z.array(z.string()).optional(),
+    pricePerHour: z
+      .number()
+      .positive("Price per hour must be a positive number")
+      .optional(),
+  }),
+});
+
 export const CarValidations = {
   createCarSchema,
+  updateCarSchema,
 };

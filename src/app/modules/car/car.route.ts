@@ -22,4 +22,12 @@ router.get("/", CarControllers.getAllCars);
 // Get a single car
 router.get("/:id", CarControllers.getSingleCar);
 
+// Update a single car's info
+router.put(
+  "/:id",
+  authorization(USER_ROLE.admin),
+  validateRequest(CarValidations.updateCarSchema),
+  CarControllers.updateCarInfo
+);
+
 export const CarRoutes = router;
