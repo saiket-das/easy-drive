@@ -1,10 +1,8 @@
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import { UserProps } from "./user.interface";
+import { StaticUserModel, UserProps } from "./user.interface";
 import { UserRole } from "./user.constant";
 import config from "../../config";
-
-const mongoose = require("mongoose");
 
 const userSchema = new Schema<UserProps>({
   name: {
@@ -61,4 +59,4 @@ userSchema.statics.isPasswordMatched = async function (
   return await bcrypt.compare(plainPassword, hashPassword);
 };
 
-export const UserModel = mongoose.model("User", userSchema);
+export const UserModel = model<UserProps, StaticUserModel>("User", userSchema);
