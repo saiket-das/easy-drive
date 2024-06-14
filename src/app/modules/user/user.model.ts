@@ -1,36 +1,41 @@
 import { model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import { StaticUserModel, UserProps } from "./user.interface";
-import { UserRole } from "./user.constant";
 import config from "../../config";
+import { UserRole } from "./user.constant";
+import { StaticUserModel, UserProps } from "./user.interface";
 
-const userSchema = new Schema<UserProps>({
-  name: {
-    type: String,
-    required: true,
+const userSchema = new Schema<UserProps>(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    role: {
+      type: String,
+      enum: UserRole,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  role: {
-    type: String,
-    enum: UserRole,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 // Hashing password
 userSchema.pre("save", async function (next) {

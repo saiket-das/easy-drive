@@ -1,9 +1,8 @@
-import bcrypt from "bcrypt";
-import config from "../../config";
-import { LoginUserProps, UserProps } from "./user.interface";
-import { UserModel } from "./user.model";
-import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
+import config from "../../config";
+import AppError from "../../errors/AppError";
+import { UserModel } from "./user.model";
+import { LoginUserProps, UserProps } from "./user.interface";
 import { generateToken } from "./user.utils";
 
 // Create a new user or signup
@@ -30,7 +29,7 @@ const loginService = async (payload: LoginUserProps) => {
   // Access granted: send AccessToken, RefreshToken
   // Create access JWT and refresh JWT
   const jwtPayload = {
-    userId: user.id,
+    email: user.email,
     role: user.role,
   };
   // Generate a Access Token

@@ -9,11 +9,10 @@ import { UserRoleProps } from "../modules/user/user.constant";
 import { UserModel } from "../modules/user/user.model";
 
 // Validate JWT
-const auth = (...requireRoles: UserRoleProps[]) => {
+const authorization = (...requireRoles: UserRoleProps[]) => {
   return catachAsync(
     async (req: Request, res: Response, next: NextFunction) => {
       const token = req.headers.authorization;
-
       // check is token is sent from client
       if (!token) {
         throw new AppError(httpStatus.FORBIDDEN, "You are not authorized!");
@@ -26,13 +25,13 @@ const auth = (...requireRoles: UserRoleProps[]) => {
       ) as JwtPayload;
 
       // check is Role is valid or not
-      const { userId, role, iat } = decoded;
+      const { email, role } = decoded;
       if (requireRoles && !requireRoles.includes(role)) {
         throw new AppError(httpStatus.FORBIDDEN, "You are not authorized!");
       }
 
-      const user = await UserModel.isUserExists(userId);
       // check is user exists or not
+      const user = await UserModel.isUserExists(email);
       if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, "User not found!");
       }
@@ -43,4 +42,4 @@ const auth = (...requireRoles: UserRoleProps[]) => {
   );
 };
 
-export default auth;
+export default authorization;

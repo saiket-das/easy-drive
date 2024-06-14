@@ -1,7 +1,7 @@
 // Define user roles as a constant
 export const USER_ROLE = {
-  USER: "user",
-  ADMIN: "admin",
+  user: "user",
+  admin: "admin",
 } as const;
 
 export enum UserRole {
