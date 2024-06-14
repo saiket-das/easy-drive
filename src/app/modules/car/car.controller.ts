@@ -27,7 +27,8 @@ const getAllCars = catchAsync(async (req, res, next) => {
 
 // Get a single car
 const getSingleCar = catchAsync(async (req, res, next) => {
-  const result = await CarServices.getSingleCarService(req.params.id);
+  const id = req.params.id;
+  const result = await CarServices.getSingleCarService(id);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -36,8 +37,22 @@ const getSingleCar = catchAsync(async (req, res, next) => {
   });
 });
 
+// Update a single car's info
+const updateCarInfo = catchAsync(async (req, res, next) => {
+  const id = req.params.id;
+  const payload = req.body;
+  const result = await CarServices.updateCarInfoCarService(id, payload);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Car updated successfully",
+    data: result,
+  });
+});
+
 export const CarControllers = {
   createCar,
   getAllCars,
   getSingleCar,
+  updateCarInfo,
 };

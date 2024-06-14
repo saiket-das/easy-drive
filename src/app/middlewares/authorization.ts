@@ -12,12 +12,13 @@ import { UserModel } from "../modules/user/user.model";
 const authorization = (...requireRoles: UserRoleProps[]) => {
   return catachAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      const token = req.headers.authorization;
+      const accessToken = req.headers.authorization as string;
       // check is token is sent from client
-      if (!token) {
+      if (!accessToken) {
         throw new AppError(httpStatus.FORBIDDEN, "You are not authorized!");
       }
 
+      const token = accessToken.split(" ")[1];
       // check is Token valid or not
       const decoded = jwt.verify(
         token,
