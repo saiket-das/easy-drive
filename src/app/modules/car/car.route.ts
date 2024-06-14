@@ -16,4 +16,10 @@ router.post(
   CarControllers.createCar
 );
 
+// Get all cars
+router.get("/", CarControllers.getAllCars);
+
+// Get a single car
+router.get("/:id", CarControllers.getSingleCar);
+
 export const CarRoutes = router;
