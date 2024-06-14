@@ -8,3 +8,8 @@ export interface UserProps {
   phone: string;
   address: string;
 }
+
+export interface LoginUserProps {
+  email: string;
+  password: string;
+}
