@@ -8,8 +8,15 @@ const router = Router();
 // Create a new user or signup
 router.post(
   "/signup",
-  validateRequest(UserValidations.createUserSchema),
+  validateRequest(UserValidations.createUserValidationSchema),
   UserControllers.signup
+);
+
+// Login
+router.post(
+  "/login",
+  validateRequest(UserValidations.loginValidationSchema),
+  UserControllers.login
 );
 
 export const UserRoutes = router;
