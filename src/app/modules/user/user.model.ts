@@ -43,11 +43,22 @@ userSchema.pre("save", async function (next) {
   );
   next();
 });
-
 // Send user empty string after hasshing password
 userSchema.post("save", function (doc, next) {
   doc.password = "";
   next();
 });
+
+// Static method to check is user exists or not
+userSchema.statics.isUserExists = async function (email: string) {
+  return await UserModel.findOne({ email }).select("+password");
+};
+// Static method to check is user exists or not
+userSchema.statics.isPasswordMatched = async function (
+  plainPassword: string,
+  hashPassword
+) {
+  return await bcrypt.compare(plainPassword, hashPassword);
+};
 
 export const UserModel = mongoose.model("User", userSchema);
