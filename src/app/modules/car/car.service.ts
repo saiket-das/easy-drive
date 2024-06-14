@@ -26,15 +26,31 @@ const updateCarInfoCarService = async (
   id: string,
   payload: Partial<CarProps>
 ) => {
-  const car = await CarModel.findById(id);
-  if (!car) {
-    throw new AppError(httpStatus.NOT_FOUND, "Car not found");
-  }
-
   const result = await CarModel.findByIdAndUpdate(id, payload, {
     new: true,
     runValidators: true,
   });
+
+  if (!result) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Fail to update car");
+  }
+
+  return result;
+};
+
+// Delete a car (isDeleted = true)
+const deleteCarService = async (id: string) => {
+  const result = await CarModel.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    {
+      new: true,
+    }
+  );
+
+  if (!result) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Fail to delete car");
+  }
 
   return result;
 };
@@ -44,4 +60,5 @@ export const CarServices = {
   getAllCarsService,
   getSingleCarService,
   updateCarInfoCarService,
+  deleteCarService,
 };

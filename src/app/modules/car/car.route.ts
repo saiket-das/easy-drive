@@ -30,4 +30,7 @@ router.put(
   CarControllers.updateCarInfo
 );
 
+// Delete a car (isDeleted = true)
+router.delete("/:id", authorization(USER_ROLE.admin), CarControllers.deleteCar);
+
 export const CarRoutes = router;
