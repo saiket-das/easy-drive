@@ -4,17 +4,7 @@ import { BookingProps } from "./booking.interface";
 const bookingSchema = new Schema<BookingProps>(
   {
     date: {
-      type: Date,
-      required: true,
-    },
-    user: {
-      type: Schema.Types.ObjectId,
-      ef: "User",
-      required: true,
-    },
-    car: {
-      type: Schema.Types.ObjectId,
-      ref: "Car",
+      type: String,
       required: true,
     },
     startTime: {
@@ -23,6 +13,15 @@ const bookingSchema = new Schema<BookingProps>(
     },
     endTime: {
       type: String,
+      default: null,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    car: {
+      type: Schema.Types.ObjectId,
+      ref: "Car",
     },
     totalCost: {
       type: Number,

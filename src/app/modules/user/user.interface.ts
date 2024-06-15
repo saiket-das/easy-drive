@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import { UserRoleProps } from "./user.constant";
 
 export interface UserProps {
@@ -8,6 +8,7 @@ export interface UserProps {
   password: string;
   phone: string;
   address: string;
+  _id: Types.ObjectId;
 }
 
 export interface LoginUserProps {
