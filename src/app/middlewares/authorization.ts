@@ -15,7 +15,10 @@ const authorization = (...requireRoles: UserRoleProps[]) => {
       const accessToken = req.headers.authorization as string;
       // check is token is sent from client
       if (!accessToken) {
-        throw new AppError(httpStatus.FORBIDDEN, "You are not authorized!");
+        throw new AppError(
+          httpStatus.FORBIDDEN,
+          "You have no access to this route"
+        );
       }
 
       const token = accessToken.split(" ")[1];
@@ -28,7 +31,10 @@ const authorization = (...requireRoles: UserRoleProps[]) => {
       // check is Role is valid or not
       const { email, role } = decoded;
       if (requireRoles && !requireRoles.includes(role)) {
-        throw new AppError(httpStatus.FORBIDDEN, "You are not authorized!");
+        throw new AppError(
+          httpStatus.FORBIDDEN,
+          "You have no access to this route"
+        );
       }
 
       // check is user exists or not

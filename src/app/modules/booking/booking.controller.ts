@@ -21,6 +21,15 @@ const createBooking = catchAsync(async (req, res, next) => {
 const getAllBookings = catchAsync(async (req, res, next) => {
   const result = await BookingServices.getAllBookingsService();
 
+  // send this response if the database collection is empty or no matching data is found
+  if (result.length < 1) {
+    sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: "No Data Found",
+      data: [],
+    });
+  }
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
