@@ -26,8 +26,7 @@ const loginService = async (payload: LoginUserProps) => {
     throw new AppError(httpStatus.FORBIDDEN, "Wrong password!");
   }
 
-  // Access granted: send AccessToken, RefreshToken
-  // Create access JWT and refresh JWT
+  // Payload of JWT
   const jwtPayload = {
     email: user.email,
     role: user.role,
