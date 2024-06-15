@@ -23,7 +23,7 @@ const loginService = async (payload: LoginUserProps) => {
   const plainPassword = payload.password;
   const hashPassword = user.password;
   if (!(await UserModel.isPasswordMatched(plainPassword, hashPassword))) {
-    throw new AppError(httpStatus.FORBIDDEN, "Wrong password!");
+    throw new AppError(httpStatus.FORBIDDEN, "Wrong password");
   }
 
   // Payload of JWT

@@ -20,6 +20,7 @@ const createBooking = catchAsync(async (req, res, next) => {
 // Get all bookings (Accessible to the Admin)
 const getAllBookings = catchAsync(async (req, res, next) => {
   const result = await BookingServices.getAllBookingsService();
+  console.log(result);
 
   // send this response if the database collection is empty or no matching data is found
   if (result.length < 1) {
