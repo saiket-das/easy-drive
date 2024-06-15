@@ -2,15 +2,16 @@ import httpStatus from "http-status";
 import { startSession, Types } from "mongoose";
 import { JwtPayload } from "jsonwebtoken";
 import AppError from "../../errors/AppError";
-import { BookingProps } from "./booking.interface";
+import { BookingProps, ReturnProps } from "./booking.interface";
 import { BookingModel } from "./booking.model";
 import { UserModel } from "../user/user.model";
 import { CarModel } from "../car/car.model";
+import { calculateTotalCost } from "./booking.utils";
+import { CarProps } from "../car/car.interface";
 
 // Book a car (Only accessible to the User)
 const createBookingService = async (
   userPayload: JwtPayload,
-  //   carId: string,
   carId: Types.ObjectId,
   payload: BookingProps
 ) => {
@@ -97,8 +98,70 @@ const getMyookingsService = async (email: string) => {
 
   return result;
 };
+
+// Book a car (Only accessible to the User)
+const returnCarService = async (payload: ReturnProps) => {
+  // check is booking exists or not
+  const booking = await BookingModel.findById(payload.bookingId);
+  if (!booking) {
+    throw new AppError(httpStatus.NOT_FOUND, "No Data Found");
+  }
+
+  const session = await startSession();
+  try {
+    // start session
+    session.startTransaction();
+
+    // check is car exists or not
+    const car = await CarModel.findById(booking.car);
+    if (!car) {
+      throw new AppError(httpStatus.NOT_FOUND, "No Data Found");
+    }
+
+    // calculate total cost
+    const startTime = booking.startTime;
+    const endTime = payload.endTime as string;
+    const pricePerHour = car.pricePerHour; // Extract car price per hour
+    const totalCost = calculateTotalCost(startTime, endTime, pricePerHour);
+
+    // set total cost in booking (totalCost: 1000) - (transaction 1)
+    const updateBookingCost = await BookingModel.findByIdAndUpdate(
+      payload.bookingId,
+      { totalCost: totalCost, endTime: endTime },
+      { session }
+    );
+    if (!updateBookingCost) {
+      throw new AppError(httpStatus.NOT_FOUND, "Fail to update total cost");
+    }
+
+    // update car status(status: available) - (transaction 2)
+    const updateCarStatus = await CarModel.findByIdAndUpdate(
+      booking.car,
+      { status: "available" },
+      { session }
+    );
+    if (!updateCarStatus) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Fail to update car's status");
+    }
+
+    // populate the booking with user & car details and send it to client
+    const result = BookingModel.findById(payload.bookingId)
+      .select("-__v")
+      .populate("user", "-password -createdAt -updatedAt -__v")
+      .populate("car", "-__v");
+
+    await session.commitTransaction();
+    await session.endSession();
+    return result;
+  } catch (error: any) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, error.message);
+  }
+};
 export const BookingServices = {
   createBookingService,
   getAllBookingsService,
   getMyookingsService,
+  returnCarService,
 };

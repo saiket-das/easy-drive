@@ -7,4 +7,10 @@ export interface BookingProps {
   user?: Types.ObjectId;
   car?: Types.ObjectId;
   totalCost: number;
+  _id: Types.ObjectId;
+}
+
+export interface ReturnProps {
+  bookingId: Types.ObjectId;
+  endTime: string; // Format: HH:mm
 }
