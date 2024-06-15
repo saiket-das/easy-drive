@@ -17,6 +17,18 @@ const createBooking = catchAsync(async (req, res, next) => {
   });
 });
 
+// Book a car (Only accessible to the User)
+const getAllBooking = catchAsync(async (req, res, next) => {
+  const result = await BookingServices.getAllBookingService();
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Car booked successfully",
+    data: result,
+  });
+});
+
 export const BookingControllers = {
   createBooking,
+  getAllBooking,
 };

@@ -15,4 +15,11 @@ router.post(
   BookingControllers.createBooking
 );
 
+// Get all bookings (Accessible to the Admin)
+router.get(
+  "/",
+  authorization(USER_ROLE.admin),
+  BookingControllers.getAllBooking
+);
+
 export const BookingRoutes = router;
