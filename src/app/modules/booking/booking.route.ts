@@ -22,4 +22,11 @@ router.get(
   BookingControllers.getAllBookings
 );
 
+// Get a user's bookings (Accessible to the User)
+router.get(
+  "/my-bookings",
+  authorization(USER_ROLE.user),
+  BookingControllers.getMyookings
+);
+
 export const BookingRoutes = router;

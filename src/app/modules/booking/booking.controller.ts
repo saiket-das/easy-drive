@@ -17,7 +17,7 @@ const createBooking = catchAsync(async (req, res, next) => {
   });
 });
 
-// Book a car (Only accessible to the User)
+// Get all bookings (Accessible to the Admin)
 const getAllBookings = catchAsync(async (req, res, next) => {
   const result = await BookingServices.getAllBookingsService();
 
@@ -38,7 +38,30 @@ const getAllBookings = catchAsync(async (req, res, next) => {
   });
 });
 
+// Get a user's bookings (Accessible to the User)
+const getMyookings = catchAsync(async (req, res, next) => {
+  const { email } = req.user;
+  const result = await BookingServices.getMyookingsService(email);
+
+  // send this response if the database collection is empty or no matching data is found
+  // if (result.length < 1) {
+  //   sendResponse(res, {
+  //     success: false,
+  //     statusCode: httpStatus.NOT_FOUND,
+  //     message: "No Data Found",
+  //     data: [],
+  //   });
+  // }
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "My Bookings retrieved successfully",
+    data: result,
+  });
+});
+
 export const BookingControllers = {
   createBooking,
   getAllBookings,
+  getMyookings,
 };

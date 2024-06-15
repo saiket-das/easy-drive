@@ -35,19 +35,41 @@ const createBookingService = async (
 
   // populate the booking with user & car details and send it to client
   const result = await BookingModel.findById(newBooking._id)
-    .populate("user", "-password")
-    .populate("car");
+    .select("-__v")
+    .populate("user", "-password -createdAt -updatedAt -__v")
+    .populate("car", "-__v");
+
   return result;
 };
 
+// Get all bookings (Accessible to the Admin)
 const getAllBookingsService = async () => {
   const result = await BookingModel.find()
-    .populate("user", "-password")
-    .populate("car");
+    .select("-__v")
+    .populate("user", "-password -createdAt -updatedAt -__v")
+    .populate("car", "-__v");
+
+  return result;
+};
+
+// Get a user's bookings (Accessible to the User)
+const getMyookingsService = async (email: string) => {
+  // check is user exists or not
+  const user = await UserModel.isUserExists(email);
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "No Data Found");
+  }
+
+  // get specifc user's all booking
+  const result = await BookingModel.find({ user: user._id })
+    .select("-__v")
+    .populate("user", "-password -createdAt -updatedAt -__v")
+    .populate("car", "-__v");
 
   return result;
 };
 export const BookingServices = {
   createBookingService,
   getAllBookingsService,
+  getMyookingsService,
 };
