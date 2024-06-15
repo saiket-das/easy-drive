@@ -17,7 +17,7 @@ const loginService = async (payload: LoginUserProps) => {
   const user = await UserModel.isUserExists(payload.email);
   // check is user exists or not
   if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found!");
+    throw new AppError(httpStatus.NOT_FOUND, "No Data Found");
   }
   // check is give password correct or not
   const plainPassword = payload.password;
@@ -38,11 +38,12 @@ const loginService = async (payload: LoginUserProps) => {
     config.jwt_access_token_expires_in as string
   );
 
-  const { password, ...userWithoutPassword } = user.toObject();
+  // Find user by ID and exclude password
+  const result = await UserModel.findById(user._id).select("-password");
 
   return {
     accessToken,
-    user: userWithoutPassword,
+    user: result,
   };
 };
 

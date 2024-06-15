@@ -18,8 +18,9 @@ const createBooking = catchAsync(async (req, res, next) => {
 });
 
 // Book a car (Only accessible to the User)
-const getAllBooking = catchAsync(async (req, res, next) => {
-  const result = await BookingServices.getAllBookingService();
+const getAllBookings = catchAsync(async (req, res, next) => {
+  const result = await BookingServices.getAllBookingsService();
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -30,5 +31,5 @@ const getAllBooking = catchAsync(async (req, res, next) => {
 
 export const BookingControllers = {
   createBooking,
-  getAllBooking,
+  getAllBookings,
 };

@@ -34,7 +34,7 @@ const authorization = (...requireRoles: UserRoleProps[]) => {
       // check is user exists or not
       const user = await UserModel.isUserExists(email);
       if (!user) {
-        throw new AppError(httpStatus.NOT_FOUND, "User not found!");
+        throw new AppError(httpStatus.NOT_FOUND, "No Data Found");
       }
 
       req.user = decoded as JwtPayload;
