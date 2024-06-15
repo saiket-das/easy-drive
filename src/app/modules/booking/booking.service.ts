@@ -17,13 +17,13 @@ const createBookingService = async (
   // check is user exists or not
   const user = await UserModel.isUserExists(userPayload.email);
   if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found!");
+    throw new AppError(httpStatus.NOT_FOUND, "No Data Found");
   }
 
   // check is car exists or not
   const car = await CarModel.findById(carId);
   if (!car) {
-    throw new AppError(httpStatus.NOT_FOUND, "Car not found!");
+    throw new AppError(httpStatus.NOT_FOUND, "No Data Found");
   }
 
   // Set userId and carId
@@ -40,7 +40,7 @@ const createBookingService = async (
   return result;
 };
 
-const getAllBookingService = async () => {
+const getAllBookingsService = async () => {
   const result = await BookingModel.find()
     .populate("user", "-password")
     .populate("car");
@@ -49,5 +49,5 @@ const getAllBookingService = async () => {
 };
 export const BookingServices = {
   createBookingService,
-  getAllBookingService,
+  getAllBookingsService,
 };
