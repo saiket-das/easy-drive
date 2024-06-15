@@ -29,4 +29,11 @@ router.get(
   BookingControllers.getMyookings
 );
 
+// Return the car (Accessible to the Admin)
+router.put(
+  "/return",
+  authorization(USER_ROLE.admin),
+  BookingControllers.returnCar
+);
+
 export const BookingRoutes = router;

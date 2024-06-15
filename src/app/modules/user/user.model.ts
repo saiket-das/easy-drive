@@ -56,7 +56,7 @@ userSchema.post("save", function (doc, next) {
 userSchema.statics.isUserExists = async function (email: string) {
   return await UserModel.findOne({ email }).select("+password");
 };
-// Static method to check is user exists or not
+// Static method to match Hash password and Plain password
 userSchema.statics.isPasswordMatched = async function (
   plainPassword: string,
   hashPassword
