@@ -14,7 +14,7 @@ app.use(cors());
 app.use("/api", router);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Server is running!");
+  res.send("Car rental server is running!");
 });
 
 // Global error handler
