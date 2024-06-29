@@ -99,7 +99,7 @@ const getMyookingsService = async (email: string) => {
   return result;
 };
 
-// Book a car (Only accessible to the User)
+// Book a car (Only accessible to the Admin)
 const returnCarService = async (payload: ReturnProps) => {
   // check is booking exists or not
   const booking = await BookingModel.findById(payload.bookingId);

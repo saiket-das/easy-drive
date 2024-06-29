@@ -20,7 +20,6 @@ const createBooking = catchAsync(async (req, res, next) => {
 // Get all bookings (Accessible to the Admin)
 const getAllBookings = catchAsync(async (req, res, next) => {
   const result = await BookingServices.getAllBookingsService();
-  console.log(result);
 
   // send this response if the database collection is empty or no matching data is found
   if (result.length < 1) {
@@ -43,10 +42,8 @@ const getAllBookings = catchAsync(async (req, res, next) => {
 const getMyookings = catchAsync(async (req, res, next) => {
   const { email } = req.user;
   const result = await BookingServices.getMyookingsService(email);
-  console.log(result);
   // send this response if the database collection is empty or no matching data is found
   if (result.length < 1) {
-    console.log("Wrong place");
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
