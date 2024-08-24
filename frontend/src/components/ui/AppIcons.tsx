@@ -1,14 +1,23 @@
-import { icons } from "lucide-react";
+// import React from "react";
+// import { IconType } from "@heroicons/react/24/outline";
 
-interface AppIconProps {
-  name: keyof typeof icons;
-  color?: string;
-  size?: number;
-}
-const AppIcon = ({ name, color = "blue", size = 24 }: AppIconProps) => {
-  const LucideIcon = icons[name];
+// interface AppIconProps {
+//   IconComponent: IconType;
+//   size?: number;
+//   className?: string;
+// }
 
-  return <LucideIcon color={color} size={size} />;
-};
+// const AppIcon: React.FC<AppIconProps> = ({
+//   IconComponent,
+//   size = 24,
+//   className,
+// }) => {
+//   return (
+//     <IconComponent
+//       aria-hidden="true"
+//       className={`h-${size} w-${size} ${className}`}
+//     />
+//   );
+// };
 
-export default AppIcon;
+// export default AppIcon;

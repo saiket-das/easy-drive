@@ -1,10 +1,9 @@
-import AppIcon from "./components/ui/AppIcons";
+import MainLayout from "./components/layout/Layout";
 
 function App() {
   return (
     <>
-      <h1 className="text-red-500">span</h1>
-      <AppIcon name="House" />
+      <MainLayout />
     </>
   );
 }
