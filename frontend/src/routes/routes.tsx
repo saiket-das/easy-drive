@@ -5,6 +5,7 @@ import MainLayout from "../components/layout/Layout";
 import Cars from "../pages/Cars/Cars";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Signin from "../redux/features/auth/Signin";
+import CarDetails from "../pages/CarDetails/CarDetails";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: AppRoutes.CARS,
         element: <Cars />,
+      },
+      {
+        path: AppRoutes.CAR_DETAILS(":id"),
+        element: <CarDetails />,
       },
       {
         path: AppRoutes.DASHBOARD,

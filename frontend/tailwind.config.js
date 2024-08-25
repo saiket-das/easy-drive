@@ -6,6 +6,8 @@ export default {
       colors: {
         primary: "#e24827",
         "primary-600": "#ce4224",
+        black: "#000000",
+        white: "#ffffff",
       },
     },
   },
