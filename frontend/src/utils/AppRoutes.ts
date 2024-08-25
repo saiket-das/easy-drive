@@ -1,12 +1,13 @@
-const Routes = {
+const AppRoutes = {
   HOME: "/",
+  CARS: "/rent-a-car",
+  CAR_DETAILS: (id = ":id") => `/car/${id}`,
   ABOUT_US: "/about-us",
-  PRODUCTS: "/products",
-  PRODUCT_DETAILS: (id = ":id") => `/products/${id}`,
   CART: "/cart",
   DASHBOARD: "/dashboard",
   CHECKOUT: "/checkout",
   ORDER_SUCCESS: "/order-success",
+  SIGNIN: "/signin",
 };
 
-export default Routes;
+export default AppRoutes;

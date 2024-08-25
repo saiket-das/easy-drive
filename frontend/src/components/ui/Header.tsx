@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog, DialogPanel, PopoverGroup } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import Routes from "../../utils/Routes";
+import Routes from "../../utils/AppRoutes";
+import { ApppAssets } from "../../utils/AppAssets";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -15,12 +16,7 @@ const Header = () => {
       >
         <div className="flex lg:flex-1">
           <Link to={Routes.HOME} className="-m-1.5 p-1.5">
-            {/* <img alt="logo" src={ApppAssets.LOGO} className="h-12 w-auto" /> */}
-            <img
-              alt=""
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              className="h-8 w-auto"
-            />
+            <img alt="logo" src={ApppAssets.LOGO} className="h-12 w-auto" />
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -41,10 +37,10 @@ const Header = () => {
             Home
           </Link>
           <Link
-            to={Routes.PRODUCTS}
+            to={Routes.CARS}
             className="text-md font-medium leading-6 text-gray-900 hover:text-primary"
           >
-            Cars
+            Rent a Car
           </Link>
 
           <Link
@@ -62,7 +58,7 @@ const Header = () => {
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link
-            to={Routes.DASHBOARD}
+            to={Routes.SIGNIN}
             className="text-md font-medium leading-6 text-gray-900 hover:text-primary"
           >
             <button
@@ -108,10 +104,10 @@ const Header = () => {
                   Home
                 </Link>
                 <Link
-                  to={Routes.PRODUCTS}
+                  to={Routes.CARS}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:text-primary hover:bg-gray-50"
                 >
-                  Cars
+                  Rent a Car
                 </Link>
 
                 <Link
@@ -134,7 +130,7 @@ const Header = () => {
                 >
                   <button
                     type="button"
-                    className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+                    className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
                   >
                     Login
                   </button>
