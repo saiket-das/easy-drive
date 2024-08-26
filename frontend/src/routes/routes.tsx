@@ -35,16 +35,16 @@ const router = createBrowserRouter([
           </RequireAuth>
         ),
       },
-      // Authentication
-      {
-        path: AppRoutes.SIGNIN,
-        element: <Signin />,
-      },
-      {
-        path: AppRoutes.SIGNUP,
-        element: <Signup />,
-      },
     ],
+  },
+  // Authentication
+  {
+    path: AppRoutes.SIGNIN,
+    element: <Signin />,
+  },
+  {
+    path: AppRoutes.SIGNUP,
+    element: <Signup />,
   },
   { path: "*", element: <NotFound /> },
 ]);
