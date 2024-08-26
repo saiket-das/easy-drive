@@ -8,6 +8,7 @@ import Signin from "../pages/Auth/Signin";
 import CarDetails from "../pages/CarDetails/CarDetails";
 import RequireAuth from "./RequireAuth";
 import Signup from "../pages/Auth/Signup";
+import NotFound from "../pages/404/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: "*", element: <NotFound /> },
 ]);
 
 export default router;
