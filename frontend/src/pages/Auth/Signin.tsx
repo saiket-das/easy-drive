@@ -1,7 +1,7 @@
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import AppForm from "../../components/form/AppForm";
 import AppInput from "../../components/form/AppInput";
-import { useLoginMutation } from "../../redux/features/auth/authApi";
+import { useSigninMutation } from "../../redux/features/auth/authApi";
 import { useAppDispatch } from "../../redux/hooks";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -15,7 +15,7 @@ const Signin = () => {
     password: "password123",
   };
 
-  const [login] = useLoginMutation();
+  const [signin] = useSigninMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const Signin = () => {
     console.log(data);
     const toastId = toast.loading("Loggin in");
     try {
-      const res = await login(data).unwrap();
+      const res = await signin(data).unwrap();
       // Decode token & set user info and user token in local storage
       const token = res.token;
       const user = verifyToken(token) as UserProps;
@@ -34,7 +34,7 @@ const Signin = () => {
         })
       );
       toast.success("Login Successfully!", { id: toastId, duration: 2000 });
-      navigate("/dashboard");
+      navigate(AppRoutes.DASHBOARD, { replace: true });
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong", { id: toastId, duration: 2000 });

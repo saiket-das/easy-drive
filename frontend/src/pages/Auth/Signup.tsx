@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import AppRoutes from "../../utils/AppRoutes";
+import { useSignupMutation } from "../../redux/features/auth/authApi";
 
 const Signup = () => {
   //   const defaultValues = {
@@ -12,40 +13,37 @@ const Signup = () => {
   //     password: "password123",
   //   };
 
-  const dispatch = useAppDispatch();
+  const [signup] = useSignupMutation();
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-
-    // {email: 'ahan@gmail.com', password: 'password123', firstname: 'Ahan', lastname: 'Bryan'}
-
     const signupData = {
       name: data.firstname + " " + data.lastname,
-      user: "user",
+      role: "user",
       email: data.email,
       password: data.password,
     };
-    console.log(signupData);
+    const toastId = "Signup";
+    try {
+      const res = await signup(signupData).unwrap();
 
-    // const toastId = toast.loading("Loggin in");
-    // try {
-    //   const res = await login(data).unwrap();
-    //   // Decode token & set user info and user token in local storage
-    //   const token = res.token;
-    //   const user = verifyToken(token) as UserProps;
-    //   dispatch(
-    //     setUser({
-    //       user: user,
-    //       token,
-    //     })
-    //   );
-    //   toast.success("Login Successfully!", { id: toastId, duration: 2000 });
-    //   navigate("/dashboard");
-    // } catch (error) {
-    //   console.log(error);
-    //   toast.error("Something went wrong", { id: toastId, duration: 2000 });
-    // }
+      if (res.error) {
+        toast.error(res.data.message, { id: toastId });
+      } else {
+        toast.success("Account Created Successfully! 🎉", {
+          description: "Please log in to access your dashboard.",
+          id: toastId,
+          duration: 2000,
+        });
+        navigate(AppRoutes.SIGNIN);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.message, {
+        id: toastId,
+        duration: 2000,
+      });
+    }
   };
   return (
     <AppForm
@@ -58,7 +56,7 @@ const Signup = () => {
             <AppInput type="text" name="firstname" label="First name" />
             <AppInput type="text" name="lastname" label="Last name" />
           </div>
-          <AppInput type="text" name="email" label="Name" />
+          <AppInput type="text" name="email" label="Email" />
           <AppInput type="password" name="password" label="Password" />
 
           <div className="flex items-center flex-col sm:flex-row justify-center gap-3 mt-8">

@@ -23,7 +23,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // Set user at local storage after login
+    // Set user at local storage after login or createAccount
     setUser: (state, action) => {
       const { user, token } = action.payload;
       state.user = user;

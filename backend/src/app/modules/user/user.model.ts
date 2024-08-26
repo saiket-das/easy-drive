@@ -26,10 +26,12 @@ const userSchema = new Schema<UserProps>(
     phone: {
       type: String,
       // required: true,
+      default: "",
     },
     address: {
       type: String,
       // required: true,
+      default: "",
     },
   },
   {
