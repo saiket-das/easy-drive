@@ -6,6 +6,7 @@ import Cars from "../pages/Cars/Cars";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Signin from "../pages/Auth/Signin";
 import CarDetails from "../pages/CarDetails/CarDetails";
+import RequireAuth from "./RequireAuth";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,11 @@ const router = createBrowserRouter([
       },
       {
         path: AppRoutes.DASHBOARD,
-        element: <Dashboard />,
+        element: (
+          <RequireAuth>
+            <Dashboard />
+          </RequireAuth>
+        ),
       },
       // Authentication
       {
