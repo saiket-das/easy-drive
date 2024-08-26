@@ -7,8 +7,6 @@ import {
 } from "react-hook-form";
 
 type FormConfigProps = {
-  // defaultValues?: Record<string, string | number>;
-  // resolver?: any;
   defaultValues?: Record<string, unknown>;
   resolver?: any;
 };
@@ -27,15 +25,13 @@ const AppForm = ({ onSubmit, children, defaultValues }: AppFormProps) => {
 
   const submit: SubmitHandler<FieldValues> = (data) => {
     onSubmit(data);
-    methods.reset();
+    // methods.reset();
   };
 
   return (
-    <div>
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(submit)}>{children}</form>
-      </FormProvider>
-    </div>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(submit)}>{children}</form>
+    </FormProvider>
   );
 };
 

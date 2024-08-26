@@ -7,6 +7,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import Signin from "../pages/Auth/Signin";
 import CarDetails from "../pages/CarDetails/CarDetails";
 import RequireAuth from "./RequireAuth";
+import Signup from "../pages/Auth/Signup";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: AppRoutes.SIGNIN,
         element: <Signin />,
+      },
+      {
+        path: AppRoutes.SIGNUP,
+        element: <Signup />,
       },
     ],
   },

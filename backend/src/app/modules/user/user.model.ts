@@ -25,11 +25,11 @@ const userSchema = new Schema<UserProps>(
     },
     phone: {
       type: String,
-      required: true,
+      // required: true,
     },
     address: {
       type: String,
-      required: true,
+      // required: true,
     },
   },
   {

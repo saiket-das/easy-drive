@@ -8,7 +8,9 @@ const AppRoutes = {
   DASHBOARD: "/dashboard",
   CHECKOUT: "/checkout",
   ORDER_SUCCESS: "/order-success",
+
   SIGNIN: "/signin",
+  SIGNUP: "/signup",
 };
 
 export default AppRoutes;
