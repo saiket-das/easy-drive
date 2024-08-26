@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
-import { useGetSingleCarQuery } from "../../redux/features/cars/carApi";
-import AppLoading from "../../components/ui/AppLoading";
-import AppRoutes from "../../utils/AppRoutes";
+import { useGetSingleCarQuery } from "../../../redux/features/cars/carApi";
+import AppLoading from "../../../components/ui/AppLoading";
+import AppRoutes from "../../../utils/AppRoutes";
 
 const CarDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -32,6 +32,7 @@ const CarDetails = () => {
       : `bg-${carColor}-500`;
 
   const colorClassName = `mt-4 border-2 border-gray-300 ${colorClass} relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full`;
+  const isButtonDisable = status === "unavailable" ? true : false;
 
   return (
     <div className="bg-white">
@@ -120,7 +121,7 @@ const CarDetails = () => {
               </span>
             </p>
 
-            <form className="mt-10">
+            <div className="mt-10">
               <div>
                 <h3 className="text-sm font-medium text-gray-900">Color</h3>
 
@@ -134,14 +135,23 @@ const CarDetails = () => {
                   {isElectric === true ? "Electric" : "Non electric"}
                 </span>
               </div>
-              <button
-                disabled={status === "unavailable"}
-                type="submit"
-                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-primary px-8 py-3 text-base font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+
+              <Link
+                to={AppRoutes.RENT_CAR(id)}
+                className="flex items-center flex-col sm:flex-row justify-center mt-6"
               >
-                Book Car
-              </button>
-            </form>
+                <button
+                  disabled={isButtonDisable}
+                  className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm ${
+                    isButtonDisable
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-primary hover:bg-primary-600"
+                  }`}
+                >
+                  {isButtonDisable ? "Unavailable" : "Rent car"}
+                </button>
+              </Link>
+            </div>
           </div>
 
           {/* Description and details */}

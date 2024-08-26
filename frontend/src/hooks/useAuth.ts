@@ -8,7 +8,6 @@ import AppRoutes from "../utils/AppRoutes";
 interface UseAuthResult {
   user: UserProps | null;
   isLoading: boolean;
-  signOut: () => void;
 }
 
 const useAuth = (): UseAuthResult => {
@@ -28,7 +27,7 @@ const useAuth = (): UseAuthResult => {
           navigate(AppRoutes.SIGNIN, { replace: true });
         }
       } else {
-        navigate(AppRoutes.SIGNIN, { replace: true });
+        setUser(null);
       }
       setIsLoading(false);
     };
@@ -37,15 +36,9 @@ const useAuth = (): UseAuthResult => {
     setIsLoading(false);
   }, [token, navigate]);
 
-  const signOut = () => {
-    setUser(null); // Manually reset user state to null
-    navigate(AppRoutes.SIGNIN, { replace: true });
-  };
-
   return {
     user,
     isLoading,
-    signOut,
   };
 };
 

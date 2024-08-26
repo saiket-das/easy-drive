@@ -3,7 +3,7 @@ import AppForm from "../../components/form/AppForm";
 import AppInput from "../../components/form/AppInput";
 import { useSigninMutation } from "../../redux/features/auth/authApi";
 import { useAppDispatch } from "../../redux/hooks";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { setUser, UserProps } from "../../redux/features/auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
@@ -18,9 +18,10 @@ const Signin = () => {
   const [signin] = useSigninMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || AppRoutes.HOME;
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
     const toastId = toast.loading("Loggin in");
     try {
       const res = await signin(data).unwrap();
@@ -34,7 +35,7 @@ const Signin = () => {
         })
       );
       toast.success("Login Successfully!", { id: toastId, duration: 2000 });
-      navigate(AppRoutes.DASHBOARD, { replace: true });
+      navigate(from, { replace: true });
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong", { id: toastId, duration: 2000 });

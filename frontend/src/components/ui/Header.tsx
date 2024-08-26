@@ -2,26 +2,21 @@ import { useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Dialog, DialogPanel, PopoverGroup } from "@headlessui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Routes from "../../utils/AppRoutes";
 import { ApppAssets } from "../../utils/AppAssets";
 import { logout } from "../../redux/features/auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import useAuth from "../../hooks/useAuth";
-import AppRoutes from "../../utils/AppRoutes";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
 
   // Handle SIGNOUT or LOGOUT
   const handleLogout = () => {
-    signOut();
     dispatch(logout());
-    navigate(AppRoutes.SIGNIN, { replace: true });
   };
 
   return (

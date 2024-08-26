@@ -5,10 +5,11 @@ import MainLayout from "../components/layout/Layout";
 import Cars from "../pages/Cars/Cars";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Signin from "../pages/Auth/Signin";
-import CarDetails from "../pages/CarDetails/CarDetails";
+import CarDetails from "../pages/Cars/CarDetails/CarDetails";
 import RequireAuth from "./RequireAuth";
 import Signup from "../pages/Auth/Signup";
 import NotFound from "../pages/404/NotFound";
+import RentCar from "../pages/Cars/RentCar/RentCar";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,14 @@ const router = createBrowserRouter([
       {
         path: AppRoutes.CAR_DETAILS(":id"),
         element: <CarDetails />,
+      },
+      {
+        path: AppRoutes.RENT_CAR(":id"),
+        element: (
+          <RequireAuth>
+            <RentCar />
+          </RequireAuth>
+        ),
       },
       {
         path: AppRoutes.DASHBOARD,
