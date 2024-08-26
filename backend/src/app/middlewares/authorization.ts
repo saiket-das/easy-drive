@@ -12,6 +12,7 @@ import { UserModel } from "../modules/user/user.model";
 const authorization = (...requireRoles: UserRoleProps[]) => {
   return catachAsync(
     async (req: Request, res: Response, next: NextFunction) => {
+      console.log(req.headers.authorization);
       const accessToken = req.headers.authorization as string;
       // check is token is sent from client
       if (!accessToken) {
@@ -21,7 +22,8 @@ const authorization = (...requireRoles: UserRoleProps[]) => {
         );
       }
 
-      const token = accessToken.split(" ")[1];
+      // const token = accessToken.split(" ")[1];
+      const token = accessToken;
       // check is Token valid or not
       const decoded = jwt.verify(
         token,
@@ -40,7 +42,7 @@ const authorization = (...requireRoles: UserRoleProps[]) => {
       // check is user exists or not
       const user = await UserModel.isUserExists(email);
       if (!user) {
-        throw new AppError(httpStatus.NOT_FOUND, "No Data Found");
+        throw new AppError(httpStatus.NOT_FOUND, "User not found!");
       }
 
       req.user = decoded as JwtPayload;

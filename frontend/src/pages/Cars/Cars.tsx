@@ -1,6 +1,6 @@
 import AppLoading from "../../components/ui/AppLoading";
 import CarCard from "../../components/ui/CarCard";
-import { useGetAllCarsQuery } from "../../redux/features/cars/carApi";
+import { useGetAllCarsQuery } from "../../redux/features/car/carApi";
 import { CarProps } from "../../types/car.types";
 
 const Cars = () => {

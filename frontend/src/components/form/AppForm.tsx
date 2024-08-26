@@ -1,12 +1,15 @@
+import { Form } from "antd";
 import { ReactNode } from "react";
 import {
-  FieldValues,
   FormProvider,
   SubmitHandler,
+  FieldValues,
   useForm,
 } from "react-hook-form";
 
 type FormConfigProps = {
+  // defaultValues?: Record<string, string | number>;
+  // resolver?: any;
   defaultValues?: Record<string, unknown>;
   resolver?: any;
 };
@@ -25,12 +28,14 @@ const AppForm = ({ onSubmit, children, defaultValues }: AppFormProps) => {
 
   const submit: SubmitHandler<FieldValues> = (data) => {
     onSubmit(data);
-    // methods.reset();
+    methods.reset();
   };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(submit)}>{children}</form>
+      <Form layout="vertical" onFinish={methods.handleSubmit(submit)}>
+        {children}
+      </Form>
     </FormProvider>
   );
 };

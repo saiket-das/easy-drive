@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { setUser, UserProps } from "../../redux/features/auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
 import AppRoutes from "../../utils/AppRoutes";
+import { Button } from "antd";
 
 const Signin = () => {
   const defaultValues = {
@@ -15,14 +16,14 @@ const Signin = () => {
     password: "password123",
   };
 
-  const [signin] = useSigninMutation();
+  const [signin, { isLoading: signinLoading }] = useSigninMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || AppRoutes.HOME;
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const toastId = toast.loading("Loggin in");
+    const toastId = "signin";
     try {
       const res = await signin(data).unwrap();
       // Decode token & set user info and user token in local storage
@@ -48,17 +49,22 @@ const Signin = () => {
           <AppInput type="text" name="email" label="Email" />
           <AppInput type="password" name="password" label="Password" />
 
-          <div className="flex items-center flex-col sm:flex-row justify-center gap-3">
-            <button className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-              Signin
-            </button>
-          </div>
+          <Button
+            htmlType="submit"
+            style={{ width: "100%" }}
+            size="large"
+            loading={signinLoading}
+            iconPosition="start"
+            className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            {signinLoading ? "Loading..." : "Signin"}
+          </Button>
 
           <p className="text-center text-sm text-gray-500">
             Don't have an account?{" "}
             <Link
               to={AppRoutes.SIGNUP}
-              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+              className="font-semibold leading-6 text-primary hover:text-primary-600"
             >
               Signup
             </Link>

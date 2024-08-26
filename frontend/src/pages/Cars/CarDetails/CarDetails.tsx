@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useGetSingleCarQuery } from "../../../redux/features/cars/carApi";
+import { useGetSingleCarQuery } from "../../../redux/features/car/carApi";
 import AppLoading from "../../../components/ui/AppLoading";
 import AppRoutes from "../../../utils/AppRoutes";
 
