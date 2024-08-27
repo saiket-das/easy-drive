@@ -1,9 +1,16 @@
-import { Calendar, Car, CircleDollarSign, LayoutDashboard } from "lucide-react";
-import AdminDashboard from "../pages/Dashboard/admin/AdminDashboard";
+import {
+  Calendar,
+  Car,
+  CircleDollarSign,
+  LayoutDashboard,
+  Plus,
+} from "lucide-react";
+import AdminDashboard from "../pages/Dashboard/Admin/AdminDashboard";
 import ROUTES from "../constants/routes";
-import Cars from "../pages/Dashboard/admin/Cars";
-import Bookings from "../pages/Dashboard/admin/Booking";
-import ReturnCar from "../pages/Dashboard/admin/ReturnCar";
+import Cars from "../pages/Dashboard/Admin/Cars";
+import Bookings from "../pages/Dashboard/Admin/Booking";
+import ReturnCar from "../pages/Dashboard/Admin/ReturnCar";
+import AddCar from "../pages/Dashboard/Admin/AddCar";
 
 export const adminPaths = [
   {
@@ -19,9 +26,15 @@ export const adminPaths = [
     element: <Cars />,
   },
   {
+    name: "Add Car",
+    icon: <Plus size={16} />,
+    path: ROUTES.ADMIN_ADD_CAR,
+    element: <AddCar />,
+  },
+  {
     name: "Booking",
     icon: <Calendar size={16} />,
-    path: ROUTES.ADMIN_CARS,
+    path: ROUTES.ADMIN_BOOKING,
     element: <Bookings />,
   },
   {

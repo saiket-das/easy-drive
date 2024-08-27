@@ -13,6 +13,7 @@ import AppLoading from "../../../components/ui/AppLoading";
 import { useCurrentToken } from "../../../redux/features/auth/authSlice";
 import { useAppSelector } from "../../../redux/hooks";
 import { Button } from "antd";
+import { ErrorProps } from "../../../types";
 
 const RentCar = () => {
   const { id } = useParams<{ id: string }>();
@@ -42,7 +43,6 @@ const RentCar = () => {
       },
       token,
     };
-    console.log(rentCarData);
     try {
       const res = await rentCar(rentCarData).unwrap();
       if (res.error) {
@@ -52,8 +52,8 @@ const RentCar = () => {
         navigate(ROUTES.CARS, { replace: true });
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong", { id: toastId, duration: 2000 });
+      const err = error as ErrorProps;
+      toast.error(err.data.message, { id: toastId, duration: 2000 });
     }
   };
   return (

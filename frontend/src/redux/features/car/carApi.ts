@@ -2,6 +2,7 @@ import { baseApi } from "../../api/baseApi";
 
 const carApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    // Addd new car
     postCars: builder.mutation({
       query: (carData) => ({
         url: "/cars",
@@ -10,23 +11,38 @@ const carApi = baseApi.injectEndpoints({
       }),
     }),
 
+    // Get all cars
     getAllCars: builder.query({
       query: () => ({
         url: "/cars",
         method: "GET",
       }),
+      providesTags: ["car"],
     }),
 
-    // <CarsProps[], string>
+    // Get a car's info
     getSingleCar: builder.query({
       query: (id) => ({
         url: `/cars/${id}`,
         method: "GET",
       }),
     }),
+
+    // Delete a car
+    deleteCar: builder.mutation({
+      query: (id) => ({
+        url: `/cars/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["car"],
+    }),
   }),
-  overrideExisting: false, // To avoid overwriting existing endpoints
+  overrideExisting: false,
 });
 
-export const { usePostCarsMutation, useGetAllCarsQuery, useGetSingleCarQuery } =
-  carApi;
+export const {
+  usePostCarsMutation,
+  useGetAllCarsQuery,
+  useGetSingleCarQuery,
+  useDeleteCarMutation,
+} = carApi;

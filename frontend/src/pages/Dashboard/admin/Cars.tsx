@@ -1,10 +1,14 @@
 import { Avatar, Button, Space, Table, TableColumnsType, Tag } from "antd";
-import { CarProps } from "../../../types";
-import { useGetAllCarsQuery } from "../../../redux/features/car/carApi";
+import { CarProps, ErrorProps, ResponseProps } from "../../../types";
+import {
+  useDeleteCarMutation,
+  useGetAllCarsQuery,
+} from "../../../redux/features/car/carApi";
 import { Link } from "react-router-dom";
 import AppModal from "../../../components/ui/AppMoal";
 import { FilePenLine, Trash } from "lucide-react";
 import { CAR_STATUS } from "../../../constants/carStatus";
+import { toast } from "sonner";
 
 type TableDataProps = Pick<
   CarProps,
@@ -12,9 +16,12 @@ type TableDataProps = Pick<
 >;
 
 const Cars = () => {
-  const { data: courseData, isFetching: getCourseFetching } =
+  const { data: carsDara, isFetching: getCarsFetching } =
     useGetAllCarsQuery(undefined);
-  const tableData = courseData?.data?.map(
+
+  const [deleteCar, { isLoading: deleteLoading }] = useDeleteCarMutation();
+
+  const tableData = carsDara?.data?.map(
     ({ _id, name, color, status, pricePerHour, isElectric }: CarProps) => ({
       key: _id,
       name,
@@ -25,24 +32,23 @@ const Cars = () => {
     })
   );
 
-  const handleDelete = async (carId: string) => {
+  const handleCarDelete = async (carId: string) => {
     console.log(carId);
-    // const toastId = "delete a student";
-    // try {
-    //   const res = (await deleteStudent(
-    //     studentId
-    //   )) as ResponseProps<StudentProps>;
-    //   if (res.error) {
-    //     toast.error(res?.error?.data?.message, { id: toastId });
-    //   } else {
-    //     toast.success("Student deleted successfully!", {
-    //       id: toastId,
-    //       duration: 2000,
-    //     });
-    //   }
-    // } catch (err) {
-    //   toast.error("Something went wrong", { id: toastId, duration: 2000 });
-    // }
+    const toastId = "Delete a car";
+    try {
+      const res = (await deleteCar(carId)) as ResponseProps<CarProps>;
+      if (res.error) {
+        toast.error(res?.error?.data?.message, { id: toastId });
+      } else {
+        toast.success("Car deleted successfully!", {
+          id: toastId,
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      const err = error as ErrorProps;
+      toast.error(err.data.message, { id: toastId, duration: 2000 });
+    }
   };
 
   const columns: TableColumnsType<TableDataProps> = [
@@ -64,7 +70,6 @@ const Cars = () => {
       key: "code",
       dataIndex: "color",
       render: (color) => {
-        console.log(color);
         const borderColor = color === "White" ? "black" : "transparent";
         return (
           <Avatar
@@ -112,7 +117,7 @@ const Cars = () => {
               disabled={item.status === CAR_STATUS.unavailable}
               content="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
               triggerText={<Trash size={16} />}
-              onOk={() => handleDelete(item._id)}
+              onOk={() => handleCarDelete(item.key)}
             />
           </Space>
         );
@@ -122,7 +127,7 @@ const Cars = () => {
 
   return (
     <Table
-      loading={getCourseFetching}
+      loading={getCarsFetching || deleteLoading}
       columns={columns}
       dataSource={tableData}
       pagination={false}

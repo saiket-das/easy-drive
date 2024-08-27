@@ -13,6 +13,7 @@ const ROUTES = {
   ADMIN: "/admin",
   ADMIN_DASHBOARD: "dashboard",
   ADMIN_CARS: "cars",
+  ADMIN_ADD_CAR: "add-car",
   ADMIN_BOOKING: "bookings",
   ADMIN_RETURN_CAR: "return-car",
 
