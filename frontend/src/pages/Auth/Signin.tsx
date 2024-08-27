@@ -36,7 +36,11 @@ const Signin = () => {
         })
       );
       toast.success("Login Successfully!", { id: toastId, duration: 2000 });
-      navigate(from, { replace: true });
+      if (from === ROUTES.DASHBOARD) {
+        navigate(`/${user.role}/${ROUTES.DASHBOARD}`);
+      } else {
+        navigate(from);
+      }
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong", { id: toastId, duration: 2000 });

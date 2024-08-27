@@ -28,20 +28,11 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.CARS,
-
-        element: (
-          <ProtectedRoute role={ROLE.user}>
-            <Cars />,
-          </ProtectedRoute>
-        ),
+        element: <Cars />,
       },
       {
         path: ROUTES.CAR_DETAILS(":id"),
-        element: (
-          <ProtectedRoute role={ROLE.user}>
-            <CarDetails />,
-          </ProtectedRoute>
-        ),
+        element: <CarDetails />,
       },
       {
         path: ROUTES.RENT_CAR(":id"),

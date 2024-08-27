@@ -45,7 +45,6 @@ const RentCar = () => {
     console.log(rentCarData);
     try {
       const res = await rentCar(rentCarData).unwrap();
-      console.log(res);
       if (res.error) {
         toast.error(res.data.message, { id: toastId });
       } else {

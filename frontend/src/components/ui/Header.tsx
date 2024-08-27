@@ -2,22 +2,32 @@ import { useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Dialog, DialogPanel, PopoverGroup } from "@headlessui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ApppAssets } from "../../utils/AppAssets";
 import { logout } from "../../redux/features/auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import useAuth from "../../hooks/useAuth";
 import ROUTES from "../../constants/routes";
-import { ROLE } from "../../constants/roles";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   // Handle SIGNOUT or LOGOUT
   const handleLogout = () => {
     dispatch(logout());
+  };
+
+  const handleClick = () => {
+    if (user?.role) {
+      navigate(`/${user.role}/${ROUTES.DASHBOARD}`);
+    } else {
+      navigate(ROUTES.SIGNIN, {
+        state: { from: { pathname: ROUTES.DASHBOARD } },
+      });
+    }
   };
 
   return (
@@ -48,14 +58,13 @@ const Header = () => {
           >
             Home
           </Link>
-          {user?.role === ROLE.user && (
-            <Link
-              to={ROUTES.CARS}
-              className="text-md font-medium leading-6 text-gray-900 hover:text-primary"
-            >
-              Rent car
-            </Link>
-          )}
+
+          <Link
+            to={ROUTES.CARS}
+            className="text-md font-medium leading-6 text-gray-900 hover:text-primary"
+          >
+            Rent car
+          </Link>
 
           <Link
             to={ROUTES.ABOUT_US}
@@ -63,19 +72,20 @@ const Header = () => {
           >
             About us
           </Link>
-          <Link
-            to={
-              user?.role
-                ? `/${user?.role}/${ROUTES.DASHBOARD}`
-                : {
-                    pathname: ROUTES.SIGNIN,
-                    state: { from: location.pathname },
-                  }
-            }
-            className="text-md font-medium leading-6 text-gray-900 hover:text-primary"
+          <p
+            onClick={handleClick}
+            // to={
+            //   user?.role
+            //     ? `/${user?.role}/${ROUTES.DASHBOARD}`
+            //     : {
+            //         pathname: ROUTES.SIGNIN,
+            //         state: { from: ROUTES.ADMIN_DASHBOARD },
+            //       }
+            // }
+            className="text-md font-medium leading-6 text-gray-900 hover:text-primary hover:cursor-pointer"
           >
             Dashboard
-          </Link>
+          </p>
         </PopoverGroup>
 
         {user ? (

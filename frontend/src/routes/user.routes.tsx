@@ -1,13 +1,13 @@
 import { Calendar, LayoutDashboard } from "lucide-react";
-import AdminDashboard from "../pages/Dashboard/admin/AdminDashboard";
 import ROUTES from "../constants/routes";
 import MyBooking from "../pages/Dashboard/user/MyBooking";
+import StudentDashboard from "../pages/Dashboard/user/StudentDashboard";
 
 export const userPaths = [
   {
     name: "Dashboard",
     path: ROUTES.USER_DASHBOARD,
-    element: <AdminDashboard />,
+    element: <StudentDashboard />,
     icon: <LayoutDashboard size={16} />,
   },
   {

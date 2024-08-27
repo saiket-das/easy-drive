@@ -1,15 +1,14 @@
 import { Flex, Layout, Menu } from "antd";
-import { GraduationCap } from "lucide-react";
 
-import useAuth from "../../hooks/useAuth";
-import { SidebarItemProps } from "../../types";
-import { ROLE } from "../../constants/roles";
-import { sidebarItemsGenerator } from "../../utils/sidebarGenerator";
-import { adminPaths } from "../../routes/admin.routes";
-import { userPaths } from "../../routes/user.routes";
+import useAuth from "../../../hooks/useAuth";
+import { SidebarItemProps } from "../../../types";
+import { ROLE } from "../../../constants/roles";
+import { sidebarItemsGenerator } from "../../../utils/sidebarGenerator";
+import { adminPaths } from "../../../routes/admin.routes";
+import { userPaths } from "../../../routes/user.routes";
 import { Link } from "react-router-dom";
-import ROUTES from "../../constants/routes";
-import { ApppAssets } from "../../utils/AppAssets";
+import ROUTES from "../../../constants/routes";
+import { ApppAssets } from "../../../utils/AppAssets";
 
 const { Sider } = Layout;
 
@@ -49,8 +48,6 @@ const Sidebar = () => {
           <Link to={ROUTES.HOME} className="-m-1.5 p-1.5">
             <img alt="logo" src={ApppAssets.LOGO} className="h-12 w-auto" />
           </Link>
-          {/* <GraduationCap size={36} /> */}
-          <h1>Car rental</h1>
         </Flex>
       </div>
       <Menu

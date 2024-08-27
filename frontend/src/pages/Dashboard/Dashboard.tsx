@@ -1,4 +1,4 @@
-import DashboardLayout from "./DashboardLayout";
+import DashboardLayout from "./DashboardLayout/DashboardLayout";
 
 const Dashboard = () => {
   return (
