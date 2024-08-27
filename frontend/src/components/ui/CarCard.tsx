@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import AppRoutes from "../../utils/AppRoutes";
+
 import { CarProps } from "../../types/car.types";
+import ROUTES from "../../constants/routes";
 
 const CarCard = ({
   _id,
@@ -12,7 +13,7 @@ const CarCard = ({
 }: CarProps) => {
   return (
     <div>
-      <Link to={AppRoutes.CAR_DETAILS(_id)}>
+      <Link to={ROUTES.CAR_DETAILS(_id)}>
         <div className="group relative">
           <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
             <img

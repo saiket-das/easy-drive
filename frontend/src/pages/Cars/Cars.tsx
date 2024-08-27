@@ -13,7 +13,7 @@ const Cars = () => {
       </div>
     );
   }
-  if (cars.length < 0) {
+  if (cars?.length < 0) {
     return (
       <p className="flex justify-center items-center text-primary-600">
         Sorry. No car available

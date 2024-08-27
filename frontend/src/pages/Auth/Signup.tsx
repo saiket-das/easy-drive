@@ -3,7 +3,7 @@ import AppForm from "../../components/form/AppForm";
 import AppInput from "../../components/form/AppInput";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import AppRoutes from "../../utils/AppRoutes";
+import ROUTES from "../../constants/routes";
 import { useSignupMutation } from "../../redux/features/auth/authApi";
 import { Button, Col, Row } from "antd";
 
@@ -30,7 +30,7 @@ const Signup = () => {
           id: toastId,
           duration: 2000,
         });
-        navigate(AppRoutes.SIGNIN);
+        navigate(ROUTES.SIGNIN);
       }
     } catch (error) {
       toast.error(error?.data?.message, {
@@ -71,7 +71,7 @@ const Signup = () => {
           <p className="text-center text-sm text-gray-500 mt-5">
             Already have an account?{" "}
             <Link
-              to={AppRoutes.SIGNIN}
+              to={ROUTES.SIGNIN}
               className="font-semibold leading-6 text-primary hover:text-primary-600"
             >
               Signin

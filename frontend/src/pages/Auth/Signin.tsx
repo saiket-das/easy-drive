@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { setUser, UserProps } from "../../redux/features/auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
-import AppRoutes from "../../utils/AppRoutes";
+import ROUTES from "../../constants/routes";
 import { Button } from "antd";
 
 const Signin = () => {
@@ -20,7 +20,7 @@ const Signin = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || AppRoutes.HOME;
+  const from = location.state?.from?.pathname || ROUTES.HOME;
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = "signin";
@@ -63,7 +63,7 @@ const Signin = () => {
           <p className="text-center text-sm text-gray-500">
             Don't have an account?{" "}
             <Link
-              to={AppRoutes.SIGNUP}
+              to={ROUTES.SIGNUP}
               className="font-semibold leading-6 text-primary hover:text-primary-600"
             >
               Signup

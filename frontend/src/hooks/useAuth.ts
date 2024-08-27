@@ -3,7 +3,7 @@ import { useCurrentToken, UserProps } from "../redux/features/auth/authSlice";
 import { useAppSelector } from "../redux/hooks";
 import { verifyToken } from "../utils/verifyToken";
 import { useNavigate } from "react-router-dom";
-import AppRoutes from "../utils/AppRoutes";
+import ROUTES from "../constants/routes";
 
 interface UseAuthResult {
   user: UserProps | null;
@@ -24,7 +24,7 @@ const useAuth = (): UseAuthResult => {
           setUser(verifiedUser);
         } catch (error) {
           console.error("Token verification failed", error);
-          navigate(AppRoutes.SIGNIN, { replace: true });
+          navigate(ROUTES.SIGNIN, { replace: true });
         }
       } else {
         setUser(null);

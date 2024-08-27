@@ -7,7 +7,7 @@ import AppDatePicker from "../../../components/form/AppDatePicker";
 import AppTimePicker from "../../../components/form/AppTimePicker";
 import { useBookCarMutation } from "../../../redux/features/book/bookApi";
 import { toast } from "sonner";
-import AppRoutes from "../../../utils/AppRoutes";
+import ROUTES from "../../../constants/routes";
 import { convertToHHMMFormat } from "../../../utils/convertToHHMMFormat";
 import AppLoading from "../../../components/ui/AppLoading";
 import { useCurrentToken } from "../../../redux/features/auth/authSlice";
@@ -50,7 +50,7 @@ const RentCar = () => {
         toast.error(res.data.message, { id: toastId });
       } else {
         toast.success("Booked Successfully!", { id: toastId, duration: 2000 });
-        navigate(AppRoutes.CARS, { replace: true });
+        navigate(ROUTES.CARS, { replace: true });
       }
     } catch (error) {
       console.log(error);

@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useGetSingleCarQuery } from "../../../redux/features/car/carApi";
 import AppLoading from "../../../components/ui/AppLoading";
-import AppRoutes from "../../../utils/AppRoutes";
+import ROUTES from "../../../constants/routes";
 
 const CarDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -45,7 +45,7 @@ const CarDetails = () => {
             <li>
               <div className="flex items-center">
                 <Link
-                  to={AppRoutes.CARS}
+                  to={ROUTES.CARS}
                   className="mr-2 text-sm font-medium text-gray-900"
                 >
                   Cars
@@ -137,7 +137,7 @@ const CarDetails = () => {
               </div>
 
               <Link
-                to={AppRoutes.RENT_CAR(id)}
+                to={ROUTES.RENT_CAR(id)}
                 className="flex items-center flex-col sm:flex-row justify-center mt-6"
               >
                 <button

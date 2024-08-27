@@ -3,11 +3,12 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Dialog, DialogPanel, PopoverGroup } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import Routes from "../../utils/AppRoutes";
 import { ApppAssets } from "../../utils/AppAssets";
 import { logout } from "../../redux/features/auth/authSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import useAuth from "../../hooks/useAuth";
+import ROUTES from "../../constants/routes";
+import { ROLE } from "../../constants/roles";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,7 +27,7 @@ const Header = () => {
         className="mx-auto flex max-w-7xl items-center justify-between pb-10"
       >
         <div className="flex lg:flex-1">
-          <Link to={Routes.HOME} className="-m-1.5 p-1.5">
+          <Link to={ROUTES.HOME} className="-m-1.5 p-1.5">
             <img alt="logo" src={ApppAssets.LOGO} className="h-12 w-auto" />
           </Link>
         </div>
@@ -42,26 +43,35 @@ const Header = () => {
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
           <Link
-            to={Routes.HOME}
+            to={ROUTES.HOME}
             className="text-md font-medium leading-6 text-gray-900 hover:text-primary"
           >
             Home
           </Link>
-          <Link
-            to={Routes.CARS}
-            className="text-md font-medium leading-6 text-gray-900 hover:text-primary"
-          >
-            Rent a Car
-          </Link>
+          {user?.role === ROLE.user && (
+            <Link
+              to={ROUTES.CARS}
+              className="text-md font-medium leading-6 text-gray-900 hover:text-primary"
+            >
+              Rent car
+            </Link>
+          )}
 
           <Link
-            to={Routes.ABOUT_US}
+            to={ROUTES.ABOUT_US}
             className="text-md font-medium leading-6 text-gray-900 hover:text-primary"
           >
             About us
           </Link>
           <Link
-            to={Routes.DASHBOARD}
+            to={
+              user?.role
+                ? `/${user?.role}/${ROUTES.DASHBOARD}`
+                : {
+                    pathname: ROUTES.SIGNIN,
+                    state: { from: location.pathname },
+                  }
+            }
             className="text-md font-medium leading-6 text-gray-900 hover:text-primary"
           >
             Dashboard
@@ -117,7 +127,7 @@ const Header = () => {
         ) : (
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Link
-              to={Routes.SIGNIN}
+              to={ROUTES.SIGNIN}
               className="text-md font-medium leading-6 text-gray-900 hover:text-primary"
             >
               <button
@@ -138,7 +148,7 @@ const Header = () => {
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <Link to={Routes.DASHBOARD} className="-m-1.5 p-1.5">
+            <Link to={ROUTES.DASHBOARD} className="-m-1.5 p-1.5">
               <img
                 alt=""
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -158,26 +168,26 @@ const Header = () => {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 <Link
-                  to={Routes.HOME}
+                  to={ROUTES.HOME}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:text-primary hover:bg-gray-50"
                 >
                   Home
                 </Link>
                 <Link
-                  to={Routes.CARS}
+                  to={ROUTES.CARS}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:text-primary hover:bg-gray-50"
                 >
-                  Rent a Car
+                  Rent car
                 </Link>
 
                 <Link
-                  to={Routes.ABOUT_US}
+                  to={ROUTES.ABOUT_US}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:text-primary hover:bg-gray-50"
                 >
                   About us
                 </Link>
                 <Link
-                  to={Routes.DASHBOARD}
+                  to={ROUTES.DASHBOARD}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:text-primary hover:bg-gray-50"
                 >
                   Dashboard
@@ -185,7 +195,7 @@ const Header = () => {
               </div>
               <div className="py-6">
                 <Link
-                  to={Routes.CART}
+                  to={ROUTES.CART}
                   className="flex h-12 w-12 flex-none items-center justify-center rounded-full hover:bg-gray-50"
                 >
                   <button
