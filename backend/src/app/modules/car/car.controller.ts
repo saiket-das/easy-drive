@@ -23,7 +23,7 @@ const getAllCars = catchAsync(async (req, res, next) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "No Data Found",
+      message: "No car found",
       data: [],
     });
   }
@@ -45,7 +45,7 @@ const getSingleCar = catchAsync(async (req, res, next) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "No Data Found",
+      message: "No car found",
       data: [],
     });
   }

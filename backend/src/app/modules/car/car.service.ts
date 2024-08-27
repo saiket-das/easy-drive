@@ -29,7 +29,7 @@ const updateCarInfoCarService = async (
   // check is car exists or not
   const car = await CarModel.findById(id);
   if (!car) {
-    throw new AppError(httpStatus.BAD_REQUEST, "No Data Found");
+    throw new AppError(httpStatus.BAD_REQUEST, "No car found");
   }
 
   const result = await CarModel.findByIdAndUpdate(id, payload, {
@@ -49,7 +49,7 @@ const deleteCarService = async (id: string) => {
   // check is car exists or not
   const car = await CarModel.findById(id);
   if (!car) {
-    throw new AppError(httpStatus.BAD_REQUEST, "No Data Found");
+    throw new AppError(httpStatus.BAD_REQUEST, "No car found");
   }
 
   const result = await CarModel.findByIdAndUpdate(

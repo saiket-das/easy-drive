@@ -17,7 +17,7 @@ const loginService = async (payload: LoginUserProps) => {
   const user = await UserModel.isUserExists(payload.email);
   // check is user exists or not
   if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "No Data Found");
+    throw new AppError(httpStatus.NOT_FOUND, "No user found");
   }
   // check is give password correct or not
   const plainPassword = payload.password;

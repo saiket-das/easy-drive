@@ -26,7 +26,7 @@ const getAllBookings = catchAsync(async (req, res, next) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "No Data Found",
+      message: "No booking found",
       data: [],
     });
   }
@@ -47,7 +47,7 @@ const getMyookings = catchAsync(async (req, res, next) => {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: "No Data Found",
+      message: "No car found",
       data: [],
     });
   }
@@ -64,15 +64,6 @@ const returnCar = catchAsync(async (req, res, next) => {
   const payload = req.body;
   const result = await BookingServices.returnCarService(payload);
 
-  // send this response if the database collection is empty or no matching data is found
-  // if (result.length < 1) {
-  //   sendResponse(res, {
-  //     success: false,
-  //     statusCode: httpStatus.NOT_FOUND,
-  //     message: "No Data Found",
-  //     data: [],
-  //   });
-  // }
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

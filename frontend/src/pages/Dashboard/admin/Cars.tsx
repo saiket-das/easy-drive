@@ -26,6 +26,7 @@ const Cars = () => {
   );
 
   const handleDelete = async (carId: string) => {
+    console.log(carId);
     // const toastId = "delete a student";
     // try {
     //   const res = (await deleteStudent(

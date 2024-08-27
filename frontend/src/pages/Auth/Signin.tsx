@@ -9,6 +9,7 @@ import { setUser, UserProps } from "../../redux/features/auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
 import ROUTES from "../../constants/routes";
 import { Button } from "antd";
+import { ErrorProps } from "../../types";
 
 const Signin = () => {
   const defaultValues = {
@@ -42,8 +43,8 @@ const Signin = () => {
         navigate(from);
       }
     } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong", { id: toastId, duration: 2000 });
+      const err = error as ErrorProps;
+      toast.error(err.data.message, { id: toastId, duration: 2000 });
     }
   };
   return (
