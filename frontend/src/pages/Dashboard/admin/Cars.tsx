@@ -1,14 +1,32 @@
-import { Avatar, Button, Space, Table, TableColumnsType, Tag } from "antd";
+import {
+  Avatar,
+  Button,
+  Modal,
+  Space,
+  Table,
+  TableColumnsType,
+  Tag,
+} from "antd";
 import { CarProps, ErrorProps, ResponseProps } from "../../../types";
 import {
   useDeleteCarMutation,
   useGetAllCarsQuery,
+  useUpdateCarInfoMutation,
 } from "../../../redux/features/car/carApi";
-import { Link } from "react-router-dom";
 import AppModal from "../../../components/ui/AppMoal";
 import { FilePenLine, Trash } from "lucide-react";
 import { CAR_STATUS } from "../../../constants/carStatus";
 import { toast } from "sonner";
+import AppForm from "../../../components/form/AppForm";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
+import AppInput from "../../../components/form/AppInput";
+import AppSelect from "../../../components/form/AppSelect";
+import { colorOptions } from "../../../constants/colors";
+
+interface UpdateCarInfoProps {
+  carInfo: CarProps;
+}
 
 type TableDataProps = Pick<
   CarProps,
@@ -24,6 +42,7 @@ const Cars = () => {
   const tableData = carsDara?.data?.map(
     ({ _id, name, color, status, pricePerHour, isElectric }: CarProps) => ({
       key: _id,
+      _id,
       name,
       color,
       pricePerHour,
@@ -108,16 +127,16 @@ const Cars = () => {
       render: (item) => {
         return (
           <Space>
-            <Link to={item._id}>
+            <UpdateCarInfo carInfo={item} />
+            {/* <Link to={item._id}>
               <Button>{<FilePenLine size={16} />}</Button>
-            </Link>
-
+            </Link> */}
             <AppModal
               title="Are you sure?"
               disabled={item.status === CAR_STATUS.unavailable}
               content="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
               triggerText={<Trash size={16} />}
-              onOk={() => handleCarDelete(item.key)}
+              onOk={() => handleCarDelete(item._id)}
             />
           </Space>
         );
@@ -136,78 +155,93 @@ const Cars = () => {
   );
 };
 
-// const UpdateCar = ({ courseInfo }) => {
-//   const [isModalOpen, setIsModalOpen] = useState(false);
+const UpdateCarInfo = ({ carInfo }: UpdateCarInfoProps) => {
+  // console.log(carInfo);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [updateCarInfo] = useUpdateCarInfoMutation();
 
-//   const { data: facultyData, isFetching: getFacultyFetching } =
-//     useGetAllFacultiesQuery(undefined);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
-//   const [assignCourseToFaculties] = useAssignCourseToFacultiesMutation();
+  // Update car info
+  const handleUpdateCarInfo: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = "Update car info";
+    const isElectric = data?.isElectric === "Yes" ? true : false;
+    const pricePerHour = Number(data?.pricePerHour);
+    const updateData = {
+      carId: carInfo._id,
+      data: {
+        ...data,
+        isElectric,
+        pricePerHour,
+      },
+    };
 
-//   const facultyOptions = facultyData?.data?.map((item) => ({
-//     value: item._id,
-//     label: `${item.name.firstName} ${item.name.lastName}`,
-//   }));
+    try {
+      const res = (await updateCarInfo(updateData)) as ResponseProps<CarProps>;
+      console.log(res);
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId });
+      } else {
+        setIsModalOpen(false);
+        toast.success("Car updated successfully!", {
+          id: toastId,
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      const err = error as ErrorProps;
+      toast.error(err.data.message, { id: toastId, duration: 2000 });
+    }
+  };
 
-//   const showModal = () => {
-//     setIsModalOpen(true);
-//   };
-//   const handleCancel = () => {
-//     setIsModalOpen(false);
-//   };
+  return (
+    <>
+      {/* <Button onClick={showModal}>Add Faculty</Button> */}
+      <Button onClick={showModal}>{<FilePenLine size={16} />}</Button>
 
-//   // Assign course to faculties
-//   // const handleAssignFaculty: SubmitHandler<FieldValues> = async (data) => {
-//   //   const toastId = "Create new course";
-//   //   const assignCourseToFacultiesData = {
-//   //     courseId: courseInfo.key,
-//   //     data: data,
-//   //   };
+      <Modal
+        title="Update car info"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <AppForm onSubmit={handleUpdateCarInfo}>
+          <AppInput type="text" name="name" label="Name" />
+          <AppSelect
+            name="color"
+            label="Color"
+            options={colorOptions}
+            placeholder="Choose a color"
+          />
+          <AppSelect
+            name="isElectric"
+            label="Electric"
+            options={[
+              { value: "Yes", label: "Yes" },
+              { value: "No", label: "No" },
+            ]}
+            placeholder="Choose a color"
+          />
+          <AppInput
+            type="number"
+            name="pricePerHour"
+            label="Price per hour"
+            placeholder="Enter rental price (hourly)"
+          />
 
-//   //   try {
-//   //     const res = (await assignCourseToFaculties(
-//   //       assignCourseToFacultiesData
-//   //     )) as ResponseProps<CourseProps>;
-
-//   //     if (res.error) {
-//   //       toast.error(res.error.data.message, { id: toastId });
-//   //     } else {
-//   //       toast.success("Course assigned successfully!", {
-//   //         id: toastId,
-//   //         duration: 2000,
-//   //       });
-//   //     }
-//   //   } catch (err) {
-//   //     toast.error("Something went wrong", { id: toastId, duration: 2000 });
-//   //   }
-//   // };
-
-//   return (
-//     <>
-//       <Button onClick={showModal}>Add Faculty</Button>
-//       <Modal
-//         title="Assign course to faculties"
-//         open={isModalOpen}
-//         onCancel={handleCancel}
-//         footer={null}
-//       >
-//         <AppForm onSubmit={handleAssignFaculty}>
-//           <AppSelect
-//             name="faculties"
-//             label="Faculties"
-//             mode="multiple"
-//             options={facultyOptions}
-//             isLoading={getFacultyFetching}
-//             placeholder="Choose pre-requisite Cars"
-//           />
-
-//           <Button htmlType="submit" style={{ width: "100%" }} size="large">
-//             Assign Faculty
-//           </Button>
-//         </AppForm>
-//       </Modal>
-//     </>
-//   );
-// };
+          <Button htmlType="submit" style={{ width: "100%" }} size="large">
+            Update Info
+          </Button>
+        </AppForm>
+      </Modal>
+    </>
+  );
+};
 
 export default Cars;
