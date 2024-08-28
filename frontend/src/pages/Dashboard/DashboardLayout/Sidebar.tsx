@@ -44,11 +44,12 @@ const Sidebar = () => {
           alignItems: "center",
         }}
       >
-        <Flex align="center" gap={10}>
-          <Link to={ROUTES.HOME} className="-m-1.5 p-1.5">
+        <Link to={ROUTES.HOME} className="-m-1.5 p-1.5">
+          <Flex align="center" gap={10}>
             <img alt="logo" src={ApppAssets.LOGO} className="h-12 w-auto" />
-          </Link>
-        </Flex>
+            <h1>Easy Drive</h1>
+          </Flex>
+        </Link>
       </div>
       <Menu
         theme="dark"

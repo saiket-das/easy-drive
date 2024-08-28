@@ -1,7 +1,8 @@
-import { Form, Input } from "antd";
+import { Form } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import { Controller } from "react-hook-form";
 
-type AppInputProps = {
+type AppTextFieldProps = {
   type: string;
   name: string;
   label?: string;
@@ -9,26 +10,25 @@ type AppInputProps = {
   disabled?: boolean;
 };
 
-const AppInput = ({
-  type,
+const AppTextField = ({
   name,
   label,
   placeholder = `Enter your ${name}`,
   disabled = false,
-}: AppInputProps) => {
+}: AppTextFieldProps) => {
   return (
     <div style={{ marginBottom: "20px" }}>
       <Controller
         name={name}
         render={({ field, fieldState: { error } }) => (
           <Form.Item label={label}>
-            <Input
+            <TextArea
               {...field}
-              type={type}
               id={name}
               size="large"
               placeholder={placeholder}
               disabled={disabled}
+              style={{ height: "100px" }}
             />
             {error && <small style={{ color: "red" }}> {error.message}</small>}
           </Form.Item>
@@ -38,4 +38,4 @@ const AppInput = ({
   );
 };
 
-export default AppInput;
+export default AppTextField;

@@ -2,8 +2,8 @@ import {
   Calendar,
   Car,
   CircleDollarSign,
+  CirclePlus,
   LayoutDashboard,
-  Plus,
 } from "lucide-react";
 import AdminDashboard from "../pages/Dashboard/Admin/AdminDashboard";
 import ROUTES from "../constants/routes";
@@ -27,7 +27,7 @@ export const adminPaths = [
   },
   {
     name: "Add Car",
-    icon: <Plus size={16} />,
+    icon: <CirclePlus size={16} />,
     path: ROUTES.ADMIN_ADD_CAR,
     element: <AddCar />,
   },

@@ -3,7 +3,7 @@ import { baseApi } from "../../api/baseApi";
 const carApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Addd new car
-    postCars: builder.mutation({
+    addNewCars: builder.mutation({
       query: (carData) => ({
         url: "/cars",
         method: "POST",
@@ -51,7 +51,7 @@ const carApi = baseApi.injectEndpoints({
 });
 
 export const {
-  usePostCarsMutation,
+  useAddNewCarsMutation,
   useGetAllCarsQuery,
   useGetSingleCarQuery,
   useUpdateCarInfoMutation,
