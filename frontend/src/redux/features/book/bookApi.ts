@@ -20,17 +20,30 @@ const bookApi = baseApi.injectEndpoints({
       invalidatesTags: ["car"],
     }),
 
-    // Get all bookings
+    // Get all bookings (Admin)
     getAllBookings: builder.query({
       query: () => ({
         url: "/bookings",
         method: "GET",
       }),
-      providesTags: ["car"],
+      providesTags: ["booking"],
+    }),
+
+    // Get all bookings
+    getAllMyBookings: builder.query({
+      query: () => ({
+        url: "/bookings/my-bookings",
+        method: "GET",
+      }),
+      providesTags: ["booking"],
     }),
   }),
 
-  overrideExisting: false, // To avoid overwriting existing endpoints
+  overrideExisting: false,
 });
 
-export const { useBookCarMutation, useGetAllBookingsQuery } = bookApi;
+export const {
+  useBookCarMutation,
+  useGetAllBookingsQuery,
+  useGetAllMyBookingsQuery,
+} = bookApi;

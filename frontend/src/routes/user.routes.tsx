@@ -1,8 +1,8 @@
 import { Calendar, LayoutDashboard } from "lucide-react";
 import ROUTES from "../constants/routes";
-import MyBooking from "../pages/Dashboard/User/MyBooking";
 
 import UserDashboard from "../pages/Dashboard/User/UserDashboard";
+import MyBookings from "../pages/Dashboard/User/MyBookings";
 
 export const userPaths = [
   {
@@ -15,6 +15,6 @@ export const userPaths = [
     name: "My Bookings",
     icon: <Calendar size={16} />,
     path: ROUTES.USER_MY_BOOKING,
-    element: <MyBooking />,
+    element: <MyBookings />,
   },
 ];

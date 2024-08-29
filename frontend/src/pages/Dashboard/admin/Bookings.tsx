@@ -1,12 +1,4 @@
-import {
-  Badge,
-  Button,
-  Modal,
-  Space,
-  Table,
-  TableColumnsType,
-  Tag,
-} from "antd";
+import { Button, Modal, Space, Table, TableColumnsType, Tag } from "antd";
 import { ErrorProps, ResponseProps } from "../../../types";
 import { useUpdateCarInfoMutation } from "../../../redux/features/car/carApi";
 import { Undo2 } from "lucide-react";
@@ -27,11 +19,11 @@ type TableDataProps = Pick<BookingProps, "_id" | "date"> & {
   isElectric: BookingProps["car"]["isElectric"];
 };
 
-const Cars = () => {
-  const { data: carsDara, isFetching: getCarsFetching } =
+const Bookings = () => {
+  const { data: BookingsDara, isFetching: getBookingsFetching } =
     useGetAllBookingsQuery(undefined);
 
-  const tableData = carsDara?.data?.map(
+  const tableData = BookingsDara?.data?.map(
     ({ _id, startTime, date, car: { name, pricePerHour } }: BookingProps) => ({
       key: _id,
       _id,
@@ -69,22 +61,13 @@ const Cars = () => {
       title: "Start time",
       key: "startTime",
       dataIndex: "startTime",
-      render: (startTime) => {
-        return <Tag color="green">{startTime}</Tag>;
-      },
     },
     {
       title: "Payment status",
       key: "date",
       dataIndex: "date",
       render: () => {
-        return (
-          <Badge
-            className="site-badge-count-109"
-            count="No"
-            style={{ backgroundColor: "red" }}
-          />
-        );
+        return <Tag color="red">Pending</Tag>;
       },
     },
     {
@@ -103,7 +86,7 @@ const Cars = () => {
 
   return (
     <Table
-      loading={getCarsFetching}
+      loading={getBookingsFetching}
       columns={columns}
       dataSource={tableData}
       pagination={false}
@@ -203,4 +186,4 @@ const ReturnCar = ({ bookingInfo }: { bookingInfo: BookingProps }) => {
   );
 };
 
-export default Cars;
+export default Bookings;

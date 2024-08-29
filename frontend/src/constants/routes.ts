@@ -17,6 +17,7 @@ const ROUTES = {
   ADMIN_BOOKING: "bookings",
   ADMIN_RETURN_CAR: "return-car",
 
+  // USER
   USER: "/user",
   USER_DASHBOARD: "dashboard",
   USER_MY_BOOKING: "my-booking",
