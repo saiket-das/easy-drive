@@ -6,29 +6,36 @@ type AppTimePickerProps = {
   name: string;
   label?: string;
   placeholder?: string;
+  disablePreviousTime?: string;
 };
 
-const AppTimePicker = ({ name, label, placeholder }: AppTimePickerProps) => {
+const AppTimePicker = ({
+  name,
+  label,
+  placeholder,
+  disablePreviousTime = "",
+}: AppTimePickerProps) => {
+  // Determine the base time for disabling previous times
   const now = dayjs();
-  const currentHour = now.hour();
-  const currentMinute = now.minute();
+  const disableFromTime = disablePreviousTime
+    ? dayjs(disablePreviousTime, "HH:mm")
+    : now; // Default to current time if no prop is provided
 
   // Function to disable past times
   const disabledTime: TimePickerProps["disabledTime"] = (date) => {
     if (!date) return {};
-    const hour = date.hour();
+    const isAfterDisableTime = date.isAfter(disableFromTime, "minute");
 
     return {
       disabledHours: () => {
-        if (hour > currentHour) return [];
-        return hour === currentHour
-          ? Array.from({ length: currentHour }).map((_, i) => i)
-          : [];
+        if (isAfterDisableTime) return [];
+        return Array.from({ length: disableFromTime.hour() }).map((_, i) => i);
       },
       disabledMinutes: () => {
-        if (hour < currentHour) return [];
-        if (hour === currentHour)
-          return Array.from({ length: currentMinute }).map((_, i) => i);
+        if (isAfterDisableTime) return [];
+        return Array.from({ length: disableFromTime.minute() }).map(
+          (_, i) => i
+        );
         return [];
       },
     };

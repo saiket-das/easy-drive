@@ -15,11 +15,24 @@ import { formatDateWithSuffix } from "../../../utils/formatDateWithSuffix";
 import AppTimePicker from "../../../components/form/AppTimePicker";
 import { convertToHHMMFormat } from "../../../utils/convertToHHMMFormat";
 
-type TableDataProps = Pick<BookingProps, "_id" | "date"> & {
+type TableDataProps = Pick<
+  BookingProps,
+  "_id" | "date" | "endTime" | "totalCost"
+> & {
   carName: BookingProps["car"]["name"];
   pricePerHour: BookingProps["car"]["pricePerHour"];
   isElectric: BookingProps["car"]["isElectric"];
 };
+
+interface BookingInfoProps {
+  _id: string;
+  name: string;
+  pricePerHour: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+  totalCost: number;
+}
 
 const Bookings = () => {
   const { data: BookingsDara, isFetching: getBookingsFetching } =
@@ -29,6 +42,7 @@ const Bookings = () => {
     ({
       _id,
       car: { name, pricePerHour },
+      totalCost,
       startTime,
       endTime,
       date,
@@ -40,6 +54,7 @@ const Bookings = () => {
       startTime,
       endTime,
       pricePerHour,
+      totalCost,
     })
   );
 
@@ -57,7 +72,6 @@ const Bookings = () => {
         return <p>৳{price}</p>;
       },
     },
-
     {
       title: "Booking date",
       key: "date",
@@ -88,6 +102,14 @@ const Bookings = () => {
       },
     },
     {
+      title: "Total cost",
+      key: "totalCost",
+      dataIndex: "totalCost",
+      render: (totalCost: number | null) => {
+        return <p>{totalCost ? `৳${totalCost}` : "-"}</p>;
+      },
+    },
+    {
       title: "Action",
       key: "X",
       width: "15%",
@@ -112,20 +134,20 @@ const Bookings = () => {
   );
 };
 
-const ReturnCar = ({ bookingInfo }) => {
+const ReturnCar = ({ bookingInfo }: { bookingInfo: BookingInfoProps }) => {
   // { bookingInfo: TableDataProps }
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [returnCar] = useReturnCarMutation();
+
+  const defaultValues = {
+    name: bookingInfo?.name,
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
-  };
-
-  const defaultValues = {
-    name: bookingInfo?.name,
   };
 
   // Handle return car func
@@ -158,7 +180,9 @@ const ReturnCar = ({ bookingInfo }) => {
 
   return (
     <>
-      <Button onClick={showModal}>{<Undo2 size={16} />} Return Car</Button>
+      <Button onClick={showModal} disabled={Boolean(bookingInfo.endTime)}>
+        {<Undo2 size={16} />} Return Car
+      </Button>
       <Modal
         title={
           <div style={{ textAlign: "center", width: "100%" }}>Return Car</div>
@@ -169,7 +193,11 @@ const ReturnCar = ({ bookingInfo }) => {
       >
         <AppForm onSubmit={handleReturnCar} defaultValues={defaultValues}>
           <AppInput type="text" name="name" label="Name" disabled />
-          <AppTimePicker name="endTime" label="End time" />
+          <AppTimePicker
+            name="endTime"
+            label="End time"
+            disablePreviousTime={bookingInfo.startTime}
+          />
 
           <Button htmlType="submit" style={{ width: "100%" }} size="large">
             Update Info
