@@ -1,6 +1,6 @@
 import { Button, Modal, Space, Table, TableColumnsType, Tag } from "antd";
 import { ErrorProps, ResponseProps } from "../../../types";
-import { Undo2 } from "lucide-react";
+import { DollarSign, Undo2 } from "lucide-react";
 import { toast } from "sonner";
 import AppForm from "../../../components/form/AppForm";
 import { FieldValues, SubmitHandler } from "react-hook-form";
@@ -125,6 +125,7 @@ const Bookings = () => {
         return (
           <Space>
             <ReturnCar bookingInfo={item} />
+            {/* <MakePaymentModal /> */}
           </Space>
         );
       },
@@ -142,9 +143,11 @@ const Bookings = () => {
   );
 };
 
+export default Bookings;
+
 const ReturnCar = ({ bookingInfo }: { bookingInfo: BookingInfoProps }) => {
-  // { bookingInfo: TableDataProps }
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [returnCar] = useReturnCarMutation();
 
   const defaultValues = {
@@ -152,10 +155,19 @@ const ReturnCar = ({ bookingInfo }: { bookingInfo: BookingInfoProps }) => {
   };
 
   const showModal = () => {
-    setIsModalOpen(true);
+    if (bookingInfo.endTime && bookingInfo.totalCost) {
+      setIsPaymentModalOpen(true);
+    } else {
+      setIsModalOpen(true);
+    }
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsPaymentModalOpen(false);
+  };
+
+  const handlePaymentModalClose = () => {
+    setIsPaymentModalOpen(false);
   };
 
   // Handle return car func
@@ -175,6 +187,7 @@ const ReturnCar = ({ bookingInfo }: { bookingInfo: BookingInfoProps }) => {
         toast.error(res.error.data.message, { id: toastId });
       } else {
         setIsModalOpen(false);
+        setIsPaymentModalOpen(true);
         toast.success("Car returned successfully!", {
           id: toastId,
           duration: 2000,
@@ -186,10 +199,16 @@ const ReturnCar = ({ bookingInfo }: { bookingInfo: BookingInfoProps }) => {
     }
   };
 
+  const Icon =
+    bookingInfo.endTime && bookingInfo.totalCost ? DollarSign : Undo2;
+
   return (
     <>
-      <Button onClick={showModal} disabled={Boolean(bookingInfo.endTime)}>
-        {<Undo2 size={16} />} Return Car
+      <Button onClick={showModal}>
+        {<Icon size={16} />}{" "}
+        {bookingInfo.endTime && bookingInfo.totalCost
+          ? "Payment"
+          : "Return Car"}
       </Button>
       <Modal
         title={
@@ -208,12 +227,45 @@ const ReturnCar = ({ bookingInfo }: { bookingInfo: BookingInfoProps }) => {
           />
 
           <Button htmlType="submit" style={{ width: "100%" }} size="large">
-            Update Info
+            Return Car
           </Button>
         </AppForm>
       </Modal>
+      <MakePaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={handlePaymentModalClose}
+      />
     </>
   );
 };
 
-export default Bookings;
+const MakePaymentModal = ({ isOpen, onClose }) => {
+  // Handle payment submission
+  const handlePayment: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data);
+  };
+
+  return (
+    <Modal
+      title={
+        <div style={{ textAlign: "center", width: "100%" }}>Make Payment</div>
+      }
+      open={isOpen}
+      onCancel={onClose}
+      footer={null}
+    >
+      <AppForm onSubmit={handlePayment}>
+        <AppInput type="text" name="amount" label="Amount" />
+        <AppInput
+          type="text"
+          name="paymentMethod"
+          label="Payment Method"
+          placeholder="Enter payment method"
+        />
+        <Button htmlType="submit" style={{ width: "100%" }} size="large">
+          Pay Now
+        </Button>
+      </AppForm>
+    </Modal>
+  );
+};
