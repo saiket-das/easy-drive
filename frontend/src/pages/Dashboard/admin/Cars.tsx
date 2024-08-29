@@ -97,9 +97,7 @@ const Cars = () => {
               borderColor: borderColor,
             }}
             size="small"
-          >
-            {/* {color} */}
-          </Avatar>
+          />
         );
       },
     },
@@ -241,7 +239,11 @@ const UpdateCarInfo = ({ carInfo }: UpdateCarInfoProps) => {
       <Button onClick={showModal}>{<FilePenLine size={16} />}</Button>
 
       <Modal
-        title="Update car info"
+        title={
+          <div style={{ textAlign: "center", width: "100%" }}>
+            Update car info
+          </div>
+        }
         open={isModalOpen}
         onCancel={handleCancel}
         footer={null}

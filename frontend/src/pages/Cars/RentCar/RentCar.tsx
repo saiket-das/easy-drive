@@ -60,13 +60,8 @@ const RentCar = () => {
     <AppForm onSubmit={onSubmit} defaultValues={defaultValues}>
       <div className="py-12">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm space-y-6">
-          <AppInput type="text" name="name" label="Car name" disabled={true} />
-          <AppInput
-            type="text"
-            name="color"
-            label="Car color"
-            disabled={true}
-          />
+          <AppInput type="text" name="name" label="Car name" disabled />
+          <AppInput type="text" name="color" label="Car color" disabled />
           <AppDatePicker name="date" label="Date" />
           <AppTimePicker name="startTime" label="Start Time" />
 

@@ -37,6 +37,16 @@ const bookApi = baseApi.injectEndpoints({
       }),
       providesTags: ["booking"],
     }),
+
+    // Get all bookings
+    returnCar: builder.mutation({
+      query: (data) => ({
+        url: "/bookings/return",
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["booking"],
+    }),
   }),
 
   overrideExisting: false,
@@ -46,4 +56,5 @@ export const {
   useBookCarMutation,
   useGetAllBookingsQuery,
   useGetAllMyBookingsQuery,
+  useReturnCarMutation,
 } = bookApi;

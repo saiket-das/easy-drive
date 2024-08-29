@@ -1,17 +1,19 @@
 import { Button, Modal, Space, Table, TableColumnsType, Tag } from "antd";
 import { ErrorProps, ResponseProps } from "../../../types";
-import { useUpdateCarInfoMutation } from "../../../redux/features/car/carApi";
 import { Undo2 } from "lucide-react";
 import { toast } from "sonner";
 import AppForm from "../../../components/form/AppForm";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import AppInput from "../../../components/form/AppInput";
-import AppSelect from "../../../components/form/AppSelect";
-import { colorOptions } from "../../../constants/colors";
-import { useGetAllBookingsQuery } from "../../../redux/features/book/bookApi";
+import {
+  useGetAllBookingsQuery,
+  useReturnCarMutation,
+} from "../../../redux/features/book/bookApi";
 import { BookingProps } from "../../../types/booking.types";
 import { formatDateWithSuffix } from "../../../utils/formatDateWithSuffix";
+import AppTimePicker from "../../../components/form/AppTimePicker";
+import { convertToHHMMFormat } from "../../../utils/convertToHHMMFormat";
 
 type TableDataProps = Pick<BookingProps, "_id" | "date"> & {
   carName: BookingProps["car"]["name"];
@@ -24,12 +26,19 @@ const Bookings = () => {
     useGetAllBookingsQuery(undefined);
 
   const tableData = BookingsDara?.data?.map(
-    ({ _id, startTime, date, car: { name, pricePerHour } }: BookingProps) => ({
+    ({
+      _id,
+      car: { name, pricePerHour },
+      startTime,
+      endTime,
+      date,
+    }: BookingProps) => ({
       key: _id,
       _id,
       name,
       date,
       startTime,
+      endTime,
       pricePerHour,
     })
   );
@@ -61,6 +70,11 @@ const Bookings = () => {
       title: "Start time",
       key: "startTime",
       dataIndex: "startTime",
+    },
+    {
+      title: "End time",
+      key: "endTime",
+      dataIndex: "endTime",
     },
     {
       title: "Payment status",
@@ -95,10 +109,10 @@ const Bookings = () => {
   );
 };
 
-const ReturnCar = ({ bookingInfo }: { bookingInfo: BookingProps }) => {
-  // console.log(carInfo);
+const ReturnCar = ({ bookingInfo }) => {
+  // { bookingInfo: TableDataProps }
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [updateCarInfo] = useUpdateCarInfoMutation();
+  const [returnCar] = useReturnCarMutation();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -107,25 +121,26 @@ const ReturnCar = ({ bookingInfo }: { bookingInfo: BookingProps }) => {
     setIsModalOpen(false);
   };
 
-  // Return car
-  const handleUpdateCarInfo: SubmitHandler<FieldValues> = async (data) => {
-    const toastId = "Update car info";
-    const isElectric = data?.isElectric === "Yes" ? true : false;
-    const pricePerHour = Number(data?.pricePerHour);
-    const updateData = {
-      carId: bookingInfo._id,
-      data: {
-        ...data,
-        isElectric,
-        pricePerHour,
-      },
+  const defaultValues = {
+    name: bookingInfo?.name,
+  };
+
+  console.log(bookingInfo);
+
+  // Handle return car func
+  const handleReturnCar: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = "Return car";
+    const endTime = convertToHHMMFormat(data.endTime);
+    const returnCarData = {
+      bookingId: bookingInfo._id,
+      endTime,
     };
+    console.log(returnCarData);
 
     try {
-      const res = (await updateCarInfo(
-        updateData
+      const res = (await returnCar(
+        returnCarData
       )) as ResponseProps<BookingProps>;
-      console.log(res);
       if (res.error) {
         toast.error(res.error.data.message, { id: toastId });
       } else {
@@ -136,7 +151,6 @@ const ReturnCar = ({ bookingInfo }: { bookingInfo: BookingProps }) => {
         });
       }
     } catch (error) {
-      console.log(error);
       const err = error as ErrorProps;
       toast.error(err.data.message, { id: toastId, duration: 2000 });
     }
@@ -144,38 +158,18 @@ const ReturnCar = ({ bookingInfo }: { bookingInfo: BookingProps }) => {
 
   return (
     <>
-      {/* <Button onClick={showModal}>Add Faculty</Button> */}
-      <Button onClick={showModal}>{<Undo2 size={16} />} Return</Button>
-
+      <Button onClick={showModal}>{<Undo2 size={16} />} Return Car</Button>
       <Modal
-        title="Update car info"
+        title={
+          <div style={{ textAlign: "center", width: "100%" }}>Return Car</div>
+        }
         open={isModalOpen}
         onCancel={handleCancel}
         footer={null}
       >
-        <AppForm onSubmit={handleUpdateCarInfo}>
-          <AppInput type="text" name="name" label="Name" />
-          <AppSelect
-            name="color"
-            label="Color"
-            options={colorOptions}
-            placeholder="Choose a color"
-          />
-          <AppSelect
-            name="isElectric"
-            label="Electric"
-            options={[
-              { value: "Yes", label: "Yes" },
-              { value: "No", label: "No" },
-            ]}
-            placeholder="Choose a color"
-          />
-          <AppInput
-            type="number"
-            name="pricePerHour"
-            label="Price per hour"
-            placeholder="Enter rental price (hourly)"
-          />
+        <AppForm onSubmit={handleReturnCar} defaultValues={defaultValues}>
+          <AppInput type="text" name="name" label="Name" disabled />
+          <AppTimePicker name="endTime" label="End time" />
 
           <Button htmlType="submit" style={{ width: "100%" }} size="large">
             Update Info
