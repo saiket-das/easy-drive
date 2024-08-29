@@ -2,7 +2,7 @@ import { baseApi } from "../../api/baseApi";
 
 const carApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Addd new car
+    // Add new car
     addNewCars: builder.mutation({
       query: (carData) => ({
         url: "/cars",

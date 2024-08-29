@@ -24,7 +24,7 @@ const ProtectedRoute = ({ role, children }: RequireAuthProps) => {
     return <Navigate to={ROUTES.SIGNIN} state={{ from: location }} replace />;
   }
 
-  if (role !== undefined && role !== user?.role) {
+  if (role !== undefined && role !== user.role) {
     dispatch(logout());
     return <Navigate to={ROUTES.SIGNIN} replace={true} />;
   }

@@ -37,7 +37,7 @@ const Signin = () => {
         })
       );
       toast.success("Login Successfully!", { id: toastId, duration: 2000 });
-      if (from === ROUTES.DASHBOARD) {
+      if (from.includes("dashboard")) {
         navigate(`/${user.role}/${ROUTES.DASHBOARD}`);
       } else {
         navigate(from);
