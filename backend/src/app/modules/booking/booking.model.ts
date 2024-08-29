@@ -27,6 +27,11 @@ const bookingSchema = new Schema<BookingProps>(
       type: Number,
       default: 0,
     },
+    isPaid: {
+      type: Schema.Types.ObjectId,
+      ref: "Payment",
+      default: null,
+    },
   },
   {
     timestamps: true,

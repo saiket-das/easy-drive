@@ -156,6 +156,7 @@ const returnCarService = async (payload: ReturnProps) => {
     throw new AppError(httpStatus.BAD_REQUEST, error.message);
   }
 };
+
 export const BookingServices = {
   createBookingService,
   getAllBookingsService,

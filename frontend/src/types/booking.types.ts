@@ -1,5 +1,5 @@
-import { UserProps } from "../redux/features/auth/authSlice";
 import { CarProps } from "./car.types";
+import { UserProps } from "./user.types";
 
 export interface BookingProps {
   _id: string;

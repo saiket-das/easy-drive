@@ -19,6 +19,7 @@ type TableDataProps = Pick<
   BookingProps,
   "_id" | "date" | "endTime" | "totalCost"
 > & {
+  userName: BookingProps["user"]["name"];
   carName: BookingProps["car"]["name"];
   pricePerHour: BookingProps["car"]["pricePerHour"];
   isElectric: BookingProps["car"]["isElectric"];
@@ -41,6 +42,7 @@ const Bookings = () => {
   const tableData = BookingsDara?.data?.map(
     ({
       _id,
+      user: { name: userName },
       car: { name, pricePerHour },
       totalCost,
       startTime,
@@ -49,6 +51,7 @@ const Bookings = () => {
     }: BookingProps) => ({
       key: _id,
       _id,
+      userName,
       name,
       date,
       startTime,
@@ -59,6 +62,11 @@ const Bookings = () => {
   );
 
   const columns: TableColumnsType<TableDataProps> = [
+    {
+      title: "User name",
+      key: "userName",
+      dataIndex: "userName",
+    },
     {
       title: "Car name",
       key: "name",

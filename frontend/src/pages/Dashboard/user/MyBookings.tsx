@@ -53,18 +53,27 @@ const MyBookings = () => {
       dataIndex: "startTime",
     },
     {
+      title: "End Time",
+      dataIndex: "endTime",
+      key: "endTime",
+      render: (endTime: string | null) => {
+        return endTime ? endTime : "-";
+      },
+    },
+    {
       title: "Payment status",
       key: "date",
       dataIndex: "date",
       render: () => {
-        return (
-          <Tag color="red">Pending</Tag>
-          // <Badge
-          //   className="site-badge-count-109"
-          //   count="Pending"
-          //   style={{ backgroundColor: "red" }}
-          // />
-        );
+        return <Tag color="red">Pending</Tag>;
+      },
+    },
+    {
+      title: "Total cost",
+      key: "totalCost",
+      dataIndex: "totalCost",
+      render: (totalCost: number | null) => {
+        return <p>{totalCost ? `৳${totalCost}` : "-"}</p>;
       },
     },
 
