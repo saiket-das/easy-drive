@@ -1,6 +1,5 @@
 import { DatePicker, Form } from "antd";
 import dayjs, { Dayjs } from "dayjs";
-import moment from "moment";
 import { Controller } from "react-hook-form";
 
 type AppDatePickerProps = {
@@ -27,7 +26,7 @@ const AppDatePicker = ({ name, label, placeholder }: AppDatePickerProps) => {
               style={{ width: "100%" }}
               placeholder={placeholder}
               disabledDate={disabledDate}
-              defaultValue={moment()}
+              // defaultValue={moment()}
             />
             {error && <small style={{ color: "red" }}> {error.message}</small>}
           </Form.Item>

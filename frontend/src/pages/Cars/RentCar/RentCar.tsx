@@ -43,6 +43,7 @@ const RentCar = () => {
       },
       token,
     };
+
     try {
       const res = await rentCar(rentCarData).unwrap();
       if (res.error) {
@@ -53,6 +54,7 @@ const RentCar = () => {
       }
     } catch (error) {
       const err = error as ErrorProps;
+
       toast.error(err.data.message, { id: toastId, duration: 2000 });
     }
   };

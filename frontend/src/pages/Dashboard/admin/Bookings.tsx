@@ -72,9 +72,12 @@ const Bookings = () => {
       dataIndex: "startTime",
     },
     {
-      title: "End time",
-      key: "endTime",
+      title: "End Time",
       dataIndex: "endTime",
+      key: "endTime",
+      render: (endTime: string | null) => {
+        return endTime ? endTime : "-";
+      },
     },
     {
       title: "Payment status",
@@ -125,8 +128,6 @@ const ReturnCar = ({ bookingInfo }) => {
     name: bookingInfo?.name,
   };
 
-  console.log(bookingInfo);
-
   // Handle return car func
   const handleReturnCar: SubmitHandler<FieldValues> = async (data) => {
     const toastId = "Return car";
@@ -135,7 +136,6 @@ const ReturnCar = ({ bookingInfo }) => {
       bookingId: bookingInfo._id,
       endTime,
     };
-    console.log(returnCarData);
 
     try {
       const res = (await returnCar(
