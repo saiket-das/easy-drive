@@ -11,6 +11,7 @@ import { CarProps, ErrorProps, ResponseProps } from "../../../types";
 import {
   useDeleteCarMutation,
   useGetAllCarsQuery,
+  useGetSingleCarQuery,
   useUpdateCarInfoMutation,
 } from "../../../redux/features/car/carApi";
 import AppModal from "../../../components/ui/AppMoal";
@@ -19,7 +20,7 @@ import { CAR_STATUS } from "../../../constants/carStatus";
 import { toast } from "sonner";
 import AppForm from "../../../components/form/AppForm";
 import { FieldValues, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppInput from "../../../components/form/AppInput";
 import AppSelect from "../../../components/form/AppSelect";
 import { colorOptions } from "../../../constants/colors";
@@ -36,7 +37,6 @@ type TableDataProps = Pick<
 const Cars = () => {
   const { data: carsDara, isFetching: getCarsFetching } =
     useGetAllCarsQuery(undefined);
-
   const [deleteCar, { isLoading: deleteLoading }] = useDeleteCarMutation();
 
   const tableData = carsDara?.data?.map(
@@ -46,13 +46,12 @@ const Cars = () => {
       name,
       color,
       pricePerHour,
-      status,
       isElectric,
+      status,
     })
   );
 
   const handleCarDelete = async (carId: string) => {
-    console.log(carId);
     const toastId = "Delete a car";
     try {
       const res = (await deleteCar(carId)) as ResponseProps<CarProps>;
@@ -105,6 +104,14 @@ const Cars = () => {
       },
     },
     {
+      title: "Vehicle type",
+      key: "isElectric",
+      dataIndex: "isElectric",
+      render: (type) => {
+        return <p>{type ? "Electric" : "Non-electric"}</p>;
+      },
+    },
+    {
       title: "Status",
       key: "status",
       dataIndex: "status",
@@ -114,7 +121,6 @@ const Cars = () => {
 
         return (
           <Tag color={status === "available" ? "success" : "default"}>
-            {/* {status} */}
             {capitalizeFirstLetter}
           </Tag>
         );
@@ -128,9 +134,6 @@ const Cars = () => {
         return (
           <Space>
             <UpdateCarInfo carInfo={item} />
-            {/* <Link to={item._id}>
-              <Button>{<FilePenLine size={16} />}</Button>
-            </Link> */}
             <AppModal
               title="Are you sure?"
               disabled={item.status === CAR_STATUS.unavailable}
@@ -155,10 +158,36 @@ const Cars = () => {
   );
 };
 
+export default Cars;
+
 const UpdateCarInfo = ({ carInfo }: UpdateCarInfoProps) => {
   // console.log(carInfo);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateCarInfo] = useUpdateCarInfoMutation();
+  const [defaultValues, setDefaultValues] = useState({
+    name: "",
+    color: "",
+    isElectric: "No",
+    pricePerHour: 0,
+  });
+
+  const { data: carData, isFetching } = useGetSingleCarQuery(
+    carInfo?._id || "",
+    {
+      skip: !carInfo?._id,
+    }
+  );
+
+  useEffect(() => {
+    if (carData) {
+      setDefaultValues({
+        name: carData.data.name,
+        color: carData.data.color,
+        isElectric: carData.data.isElectric ? "Yes" : "No",
+        pricePerHour: carData.data.pricePerHour,
+      });
+    }
+  }, [carData]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -183,10 +212,17 @@ const UpdateCarInfo = ({ carInfo }: UpdateCarInfoProps) => {
 
     try {
       const res = (await updateCarInfo(updateData)) as ResponseProps<CarProps>;
-      console.log(res);
       if (res.error) {
         toast.error(res.error.data.message, { id: toastId });
       } else {
+        if (res.data) {
+          setDefaultValues({
+            name: data.name,
+            color: data.color,
+            isElectric: data.isElectric,
+            pricePerHour,
+          });
+        }
         setIsModalOpen(false);
         toast.success("Car updated successfully!", {
           id: toastId,
@@ -194,7 +230,6 @@ const UpdateCarInfo = ({ carInfo }: UpdateCarInfoProps) => {
         });
       }
     } catch (error) {
-      console.log(error);
       const err = error as ErrorProps;
       toast.error(err.data.message, { id: toastId, duration: 2000 });
     }
@@ -211,7 +246,7 @@ const UpdateCarInfo = ({ carInfo }: UpdateCarInfoProps) => {
         onCancel={handleCancel}
         footer={null}
       >
-        <AppForm onSubmit={handleUpdateCarInfo}>
+        <AppForm onSubmit={handleUpdateCarInfo} defaultValues={defaultValues}>
           <AppInput type="text" name="name" label="Name" />
           <AppSelect
             name="color"
@@ -233,9 +268,15 @@ const UpdateCarInfo = ({ carInfo }: UpdateCarInfoProps) => {
             name="pricePerHour"
             label="Price per hour"
             placeholder="Enter rental price (hourly)"
+            disabled={carInfo.status === CAR_STATUS.unavailable}
           />
 
-          <Button htmlType="submit" style={{ width: "100%" }} size="large">
+          <Button
+            htmlType="submit"
+            style={{ width: "100%" }}
+            size="large"
+            disabled={isFetching}
+          >
             Update Info
           </Button>
         </AppForm>
@@ -243,5 +284,3 @@ const UpdateCarInfo = ({ carInfo }: UpdateCarInfoProps) => {
     </>
   );
 };
-
-export default Cars;
