@@ -8,6 +8,7 @@ const BestCarCard = ({ carInfo }: { carInfo: CarProps }) => {
   const {
     _id,
     name,
+    images,
     description = "Product description goes here.",
     pricePerHour = 20,
     color,
@@ -16,8 +17,8 @@ const BestCarCard = ({ carInfo }: { carInfo: CarProps }) => {
     <div className="mx-auto mt-11 w-80 transform overflow-hidden shadow-md rounded-lg duration-300 hover:scale-100 hover:shadow-lg">
       <img
         className="h-56 w-full object-cover object-center"
-        src="https://images.unsplash.com/photo-1490902931801-d6f80ca94fe4?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt="Product Image"
+        src={images[0]}
+        alt={name}
       />
       <div className="px-6 py-4">
         <h2 className="mb-3 text-2xl font-medium">{name}</h2>

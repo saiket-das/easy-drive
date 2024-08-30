@@ -9,6 +9,7 @@ const carApi = baseApi.injectEndpoints({
         method: "POST",
         body: carData,
       }),
+      invalidatesTags: ["car"],
     }),
 
     // Get all cars

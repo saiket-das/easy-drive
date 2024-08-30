@@ -64,8 +64,8 @@ const AppFileUpload = ({ name, label, maxFiles = 8 }: AppFileUploadProps) => {
                 onPreview={handlePreview}
                 onChange={(info) => {
                   const files = info.fileList.map((file) => file.originFileObj);
-                  field.onChange(files); // Pass the array of files to the parent form
-                  handleChange(info); // Handle the fileList update
+                  field.onChange(files);
+                  handleChange(info);
                 }}
               >
                 {fileList.length >= maxFiles ? null : uploadButton}

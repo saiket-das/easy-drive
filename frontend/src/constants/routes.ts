@@ -1,6 +1,6 @@
 const ROUTES = {
   HOME: "/",
-  CARS: "/rent-a-car",
+  CARS: "/cars",
   CAR_DETAILS: (id = ":id") => `/car/${id}`,
   RENT_CAR: (id = ":id") => `/car/rent-car/${id}`,
   ABOUT_US: "/about-us",

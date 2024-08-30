@@ -8,8 +8,6 @@ import {
 } from "react-hook-form";
 
 type FormConfigProps = {
-  // defaultValues?: Record<string, string | number>;
-  // resolver?: any;
   defaultValues?: Record<string, unknown>;
   resolver?: any;
 };
@@ -24,13 +22,6 @@ const AppForm = ({
   defaultValues,
   resolver,
 }: AppFormProps) => {
-  // const formConfig: FormConfigProps = {};
-  // // if (defaultValues) {
-  // //   formConfig["defaultValues"] = defaultValues;
-  // // }
-
-  // const methods = useForm(formConfig);
-
   const methods = useForm({
     defaultValues,
     resolver,

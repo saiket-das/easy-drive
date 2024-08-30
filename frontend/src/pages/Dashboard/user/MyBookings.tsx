@@ -101,7 +101,7 @@ const MyBookings = () => {
       dataIndex: "isPaid",
       render: (isPaid) => {
         return (
-          <Tag color={isPaid ? "green" : "gray"}>
+          <Tag color={isPaid ? "gray" : "green"}>
             {isPaid ? "Returned" : "Active"}
           </Tag>
         );

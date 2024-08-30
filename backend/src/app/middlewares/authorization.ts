@@ -12,7 +12,6 @@ import { UserModel } from "../modules/user/user.model";
 const authorization = (...requireRoles: UserRoleProps[]) => {
   return catachAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-      console.log(req.headers.authorization);
       const accessToken = req.headers.authorization as string;
       // check is token is sent from client
       if (!accessToken) {

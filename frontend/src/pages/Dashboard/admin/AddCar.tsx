@@ -13,17 +13,6 @@ import AppFileUpload from "../../../components/form/AppFileUpload";
 import uploadToCloudinary from "../../../utils/uploadToCloudinary";
 import { useState } from "react";
 
-const defaultValues = {
-  name: "Toyota Prius",
-  description:
-    "A hybrid car known for its fuel efficiency and eco-friendly design.",
-  color: "White",
-  isElectric: false,
-  status: "available",
-  features: ["Bluetooth", "AC", "Backup Camera", "Lane Assist"],
-  pricePerHour: 1000,
-};
-
 const AddCar = () => {
   const [addNewCar, { isLoading }] = useAddNewCarsMutation();
   const [imageUploading, setImageUploading] = useState(false);
@@ -42,14 +31,12 @@ const AddCar = () => {
       const uploadResults = await Promise.all(uploadPromises);
       const imageUrls = uploadResults.map((result) => result);
       setImageUploading(false);
-      console.log("Image urls:", imageUrls);
       const newData = {
         ...data,
         isElectric,
         pricePerHour,
         images: imageUrls,
       };
-      console.log(newData);
       const res = (await addNewCar(newData)) as ResponseProps<CarProps>;
       if (res.error) {
         toast.error(res.error.data.message, { id: toastId });
@@ -68,7 +55,7 @@ const AddCar = () => {
   return (
     <Flex justify="center" align="center" style={{ paddingBottom: "20px" }}>
       <Col span={24}>
-        <AppForm onSubmit={onSubmit} defaultValues={defaultValues}>
+        <AppForm onSubmit={onSubmit}>
           <Row gutter={[16, 0]}>
             <Col span={24} lg={{ span: 12 }} md={{ span: 12 }}>
               <AppInput
