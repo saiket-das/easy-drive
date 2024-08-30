@@ -9,30 +9,47 @@ import { colorFeatureOptions } from "../../../constants/carFeatures";
 import AppTextField from "../../../components/form/AppTextField";
 import { useAddNewCarsMutation } from "../../../redux/features/car/carApi";
 import { CarProps, ErrorProps, ResponseProps } from "../../../types";
+import AppFileUpload from "../../../components/form/AppFileUpload";
+import uploadToCloudinary from "../../../utils/uploadToCloudinary";
+import { useState } from "react";
 
-// const defaultValues = {
-//   name: "Tesla Model S",
-//   description:
-//     "A fully electric sedan with advanced technology and high performance.",
-//   color: "Red",
-// };
+const defaultValues = {
+  name: "Toyota Prius",
+  description:
+    "A hybrid car known for its fuel efficiency and eco-friendly design.",
+  color: "White",
+  isElectric: false,
+  status: "available",
+  features: ["Bluetooth", "AC", "Backup Camera", "Lane Assist"],
+  pricePerHour: 1000,
+};
 
 const AddCar = () => {
   const [addNewCar, { isLoading }] = useAddNewCarsMutation();
+  const [imageUploading, setImageUploading] = useState(false);
 
   // Create a new car
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = "Update car info";
-
     const isElectric = data?.isElectric === "Yes" ? true : false;
     const pricePerHour = Number(data?.pricePerHour);
-    const newData = {
-      ...data,
-      isElectric,
-      pricePerHour,
-    };
 
     try {
+      setImageUploading(true);
+      const uploadPromises = Array.from(data.images).map((file) =>
+        uploadToCloudinary(file as File)
+      );
+      const uploadResults = await Promise.all(uploadPromises);
+      const imageUrls = uploadResults.map((result) => result);
+      setImageUploading(false);
+      console.log("Image urls:", imageUrls);
+      const newData = {
+        ...data,
+        isElectric,
+        pricePerHour,
+        images: imageUrls,
+      };
+      console.log(newData);
       const res = (await addNewCar(newData)) as ResponseProps<CarProps>;
       if (res.error) {
         toast.error(res.error.data.message, { id: toastId });
@@ -43,7 +60,7 @@ const AddCar = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+      setImageUploading(false);
       const err = error as ErrorProps;
       toast.error(err.data.message, { id: toastId, duration: 2000 });
     }
@@ -51,7 +68,7 @@ const AddCar = () => {
   return (
     <Flex justify="center" align="center" style={{ paddingBottom: "20px" }}>
       <Col span={24}>
-        <AppForm onSubmit={onSubmit}>
+        <AppForm onSubmit={onSubmit} defaultValues={defaultValues}>
           <Row gutter={[16, 0]}>
             <Col span={24} lg={{ span: 12 }} md={{ span: 12 }}>
               <AppInput
@@ -69,6 +86,75 @@ const AddCar = () => {
                 placeholder="Choose a color"
               />
             </Col>
+
+            <Col span={24}>
+              <AppFileUpload name="images" label="Upload Images" />
+            </Col>
+
+            {/* <Col span={24} lg={{ span: 6 }} md={{ span: 12 }}>
+              <Controller
+                name="image1"
+                render={({ field: { onChange, value, ...field } }) => (
+                  <Form.Item label="Image 1">
+                    <Input
+                      type="file"
+                      value={value?.fileName}
+                      size="large"
+                      {...field}
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                    />
+                  </Form.Item>
+                )}
+              />
+            </Col>
+            <Col span={24} lg={{ span: 6 }} md={{ span: 12 }}>
+              <Controller
+                name="image2"
+                render={({ field: { onChange, value, ...field } }) => (
+                  <Form.Item label="Image 2">
+                    <Input
+                      type="file"
+                      value={value?.fileName}
+                      size="large"
+                      {...field}
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                    />
+                  </Form.Item>
+                )}
+              />
+            </Col>
+            <Col span={24} lg={{ span: 6 }} md={{ span: 12 }}>
+              <Controller
+                name="image3"
+                render={({ field: { onChange, value, ...field } }) => (
+                  <Form.Item label="Image 3">
+                    <Input
+                      type="file"
+                      value={value?.fileName}
+                      size="large"
+                      {...field}
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                    />
+                  </Form.Item>
+                )}
+              />
+            </Col>
+            <Col span={24} lg={{ span: 6 }} md={{ span: 12 }}>
+              <Controller
+                name="image4"
+                render={({ field: { onChange, value, ...field } }) => (
+                  <Form.Item label="Image 4">
+                    <Input
+                      type="file"
+                      value={value?.fileName}
+                      size="large"
+                      {...field}
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                    />
+                  </Form.Item>
+                )}
+              />
+            </Col> */}
 
             <Col span={24}>
               <AppTextField
@@ -113,10 +199,10 @@ const AddCar = () => {
             htmlType="submit"
             style={{ width: "100%", marginTop: "20px" }}
             size="large"
-            loading={isLoading}
+            loading={isLoading || imageUploading}
             iconPosition="start"
           >
-            {isLoading ? "Loading..." : "Add new car"}
+            {isLoading || imageUploading ? "Loading..." : "Add new car"}
           </Button>
         </AppForm>
       </Col>

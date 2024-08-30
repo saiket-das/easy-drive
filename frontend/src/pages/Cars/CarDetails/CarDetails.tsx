@@ -19,6 +19,7 @@ const CarDetails = () => {
     name,
     description,
     color,
+    images,
     isElectric,
     status,
     features,
@@ -74,7 +75,7 @@ const CarDetails = () => {
           <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
             <img
               alt={name}
-              src="https://images.unsplash.com/photo-1538592116845-119a3974c958?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={images[0]}
               className="h-full w-full object-cover object-center"
             />
           </div>
@@ -82,14 +83,14 @@ const CarDetails = () => {
             <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
               <img
                 alt={name}
-                src="https://images.unsplash.com/photo-1538592116845-119a3974c958?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src={images[1] ? images[1] : images[0]}
                 className="h-full w-full object-cover object-center"
               />
             </div>
             <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
               <img
                 alt={name}
-                src="https://images.unsplash.com/photo-1538592116845-119a3974c958?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                src={images[2] ? images[2] : images[0]}
                 className="h-full w-full object-cover object-center"
               />
             </div>
@@ -97,7 +98,7 @@ const CarDetails = () => {
           <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
             <img
               alt={name}
-              src="https://images.unsplash.com/photo-1538592116845-119a3974c958?q=80&w=3132&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={images[3] ? images[3] : images[0]}
               className="h-full w-full object-cover object-center"
             />
           </div>

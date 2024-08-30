@@ -3,7 +3,10 @@ import { useGetAllMyBookingsQuery } from "../../../redux/features/book/bookApi";
 import { BookingProps } from "../../../types/booking.types";
 import { formatDateWithSuffix } from "../../../utils/formatDateWithSuffix";
 
-type TableDataProps = Pick<BookingProps, "_id" | "date"> & {
+type TableDataProps = Pick<
+  BookingProps,
+  "_id" | "date" | "totalCost" | "isPaid"
+> & {
   carName: BookingProps["car"]["name"];
   pricePerHour: BookingProps["car"]["pricePerHour"];
   isElectric: BookingProps["car"]["isElectric"];
@@ -14,12 +17,23 @@ const MyBookings = () => {
     useGetAllMyBookingsQuery(undefined);
 
   const tableData = BookingsDara?.data?.map(
-    ({ _id, startTime, date, car: { name, pricePerHour } }: BookingProps) => ({
+    ({
+      _id,
+      isPaid,
+      date,
+      startTime,
+      endTime,
+      totalCost,
+      car: { name, pricePerHour },
+    }: BookingProps) => ({
       key: _id,
       _id,
       name,
+      isPaid,
       date,
       startTime,
+      endTime,
+      totalCost,
       pricePerHour,
     })
   );
@@ -62,10 +76,14 @@ const MyBookings = () => {
     },
     {
       title: "Payment status",
-      key: "date",
-      dataIndex: "date",
-      render: () => {
-        return <Tag color="red">Pending</Tag>;
+      key: "isPaid",
+      dataIndex: "isPaid",
+      render: (isPaid) => {
+        return (
+          <Tag color={isPaid ? "green" : "red"}>
+            {isPaid ? "Success" : "Pending"}
+          </Tag>
+        );
       },
     },
     {
@@ -79,10 +97,14 @@ const MyBookings = () => {
 
     {
       title: "Booking status",
-      key: "startTime",
-      dataIndex: "startTime",
-      render: () => {
-        return <Tag color="green">Active</Tag>;
+      key: "isPaid",
+      dataIndex: "isPaid",
+      render: (isPaid) => {
+        return (
+          <Tag color={isPaid ? "green" : "gray"}>
+            {isPaid ? "Returned" : "Active"}
+          </Tag>
+        );
       },
     },
   ];

@@ -3,6 +3,7 @@ export interface CarProps {
   description: string;
   color: string;
   isElectric: boolean;
+  images?: string[];
   features: string[];
   pricePerHour: number;
   status?: string;

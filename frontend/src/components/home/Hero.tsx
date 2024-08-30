@@ -10,7 +10,7 @@ const Hero = () => {
             Adventure awaits. Gear up now!{" "}
             <Link to={ROUTES.CARS} className="font-semibold text-primary">
               <span aria-hidden="true" className="absolute inset-0" />
-              Shop Now <span aria-hidden="true">&rarr;</span>
+              Book Now <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
         </div>

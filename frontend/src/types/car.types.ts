@@ -5,6 +5,7 @@ export interface CarProps {
   color: string;
   isElectric: boolean;
   status: string;
+  images: string[];
   features: string[];
   pricePerHour: number;
   isDeleted: boolean;

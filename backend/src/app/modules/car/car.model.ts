@@ -17,6 +17,10 @@ const carSchema = new Schema<CarProps>(
       type: String,
       required: true,
     },
+    images: {
+      type: [{ type: String, required: true }],
+      required: true,
+    },
     isElectric: {
       type: Boolean,
       required: true,
