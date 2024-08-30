@@ -9,6 +9,8 @@ export interface BookingProps {
   user: UserProps;
   car: CarProps;
   totalCost: number;
+
+  isPaid: string | null;
   createdAt: string;
   updatedAt: string;
 }

@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import ROUTES from "../../constants/routes";
 import { useSignupMutation } from "../../redux/features/auth/authApi";
 import { Button, Col, Row } from "antd";
+import { ErrorProps } from "../../types";
 
 const Signup = () => {
   const [signup, { isLoading: signupLoading }] = useSignupMutation();
@@ -33,7 +34,8 @@ const Signup = () => {
         navigate(ROUTES.SIGNIN);
       }
     } catch (error) {
-      toast.error(error?.data?.message, {
+      const err = error as ErrorProps;
+      toast.error(err.data.message, {
         id: toastId,
         duration: 2000,
       });

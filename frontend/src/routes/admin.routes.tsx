@@ -3,7 +3,7 @@ import AdminDashboard from "../pages/Dashboard/Admin/AdminDashboard";
 import ROUTES from "../constants/routes";
 import Cars from "../pages/Dashboard/Admin/Cars";
 import AddCar from "../pages/Dashboard/Admin/AddCar";
-import Bookings from "../pages/Dashboard/Admin/Bookings";
+import Bookings from "../pages/Dashboard/Admin/Booking/Bookings";
 
 export const adminPaths = [
   {

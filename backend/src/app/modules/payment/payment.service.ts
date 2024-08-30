@@ -10,7 +10,7 @@ import config from "../../config";
 const stripe = new Stripe(config.stripe_secret_key as string);
 
 const createPaymentService = async (payload: PaymentProps) => {
-  const { bookingId, amount, currency, paymentMethod } = payload;
+  const { bookingId, amount, paymentMethod } = payload;
 
   const session = await startSession();
   try {
@@ -24,8 +24,7 @@ const createPaymentService = async (payload: PaymentProps) => {
     // Create a payment intent with Stripe
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
-      currency,
-      //   payment_method_types: ["card"],
+      currency: "bdt",
       payment_method: paymentMethod,
       confirm: true,
       automatic_payment_methods: {
@@ -37,8 +36,8 @@ const createPaymentService = async (payload: PaymentProps) => {
     // Create a new payment record
     const payment = {
       bookingId,
-      amount,
-      currency,
+      amount: amount / 100,
+      currency: "bdt",
       paymentMethod: paymentIntent.payment_method_types[0],
       paymentStatus: paymentIntent.status,
       stripePaymentId: paymentIntent.id,
@@ -65,7 +64,7 @@ const createPaymentService = async (payload: PaymentProps) => {
 
     await session.commitTransaction();
     await session.endSession();
-    return paymentResult;
+    return { clientSecret: paymentIntent.client_secret };
   } catch (error: any) {
     throw new AppError(httpStatus.BAD_REQUEST, error.message);
   }

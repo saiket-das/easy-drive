@@ -20,5 +20,5 @@ export const calculateTotalCost = (
   // calculate the total cost
   const totalCost = durationInHours * pricePerHour;
 
-  return totalCost;
+  return Math.round(totalCost);
 };
