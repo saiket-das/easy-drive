@@ -9,9 +9,19 @@ const app: Application = express();
 // parsers
 app.use(express.json());
 // app.use(cors());
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:5173",
+//       "https://easy-drive-frontend.vercel.app/",
+//     ],
+//     credentials: true,
+//   })
+// );
+
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: "https://easy-drive-frontend.vercel.app",
     credentials: true,
   })
 );

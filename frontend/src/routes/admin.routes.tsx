@@ -1,9 +1,9 @@
 import { Calendar, Car, CirclePlus, LayoutDashboard } from "lucide-react";
-import AdminDashboard from "../pages/Dashboard/Admin/AdminDashboard";
 import ROUTES from "../constants/routes";
-import Cars from "../pages/Dashboard/Admin/Cars";
-import AddCar from "../pages/Dashboard/Admin/AddCar";
-import Bookings from "../pages/Dashboard/Admin/Booking/Bookings";
+import AdminDashboard from "../pages/Dashboard/admin/AdminDashboard";
+import Bookings from "../pages/Dashboard/admin/Booking/Bookings";
+import AddCar from "../pages/Dashboard/admin/AddCar";
+import Cars from "../pages/Dashboard/admin/Cars";
 
 export const adminPaths = [
   {

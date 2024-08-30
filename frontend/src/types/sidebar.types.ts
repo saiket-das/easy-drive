@@ -13,11 +13,27 @@ export type RouteProps = {
   element: ReactNode;
 };
 
-export type SidebarItemProps =
-  | {
-      key: string | number;
-      label: ReactNode;
-      children?: SidebarItemProps[];
-      icon?: React.ReactNode;
-    }
-  | undefined;
+export interface MenuItemType {
+  key: string;
+  label: React.ReactNode;
+  icon?: React.ReactNode;
+  children?: MenuItemType[];
+}
+
+export type ItemType<T> = T;
+
+// export type SidebarItemProps =
+//   | {
+//       key: string | number;
+//       label: ReactNode;
+//       children?: SidebarItemProps[];
+//       icon?: React.ReactNode;
+//     }
+//   | undefined;
+
+export interface SidebarItemProps {
+  key: string;
+  label: React.ReactNode;
+  icon?: React.ReactNode;
+  children?: SidebarItemProps[];
+}

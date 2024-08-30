@@ -15,7 +15,7 @@ const { Sider } = Layout;
 const Sidebar = () => {
   const { user } = useAuth();
 
-  let sidebarItems: SidebarItemProps[] | undefined;
+  let sidebarItems: SidebarItemProps[];
   switch (user?.role) {
     case ROLE.user:
       sidebarItems = sidebarItemsGenerator(userPaths, ROLE.user);
@@ -54,7 +54,6 @@ const Sidebar = () => {
       <Menu
         theme="dark"
         mode="inline"
-        // color="blue"
         defaultSelectedKeys={["4"]}
         items={sidebarItems}
       />

@@ -25,9 +25,6 @@ const BestCarCard = ({ carInfo }: { carInfo: CarProps }) => {
         <p className="mb-2 text-gray-700">{description}</p>
         <div className="flex items-center">
           <p className="mr-2 text-md font-semibol">Color: {color}</p>
-          {/* <p className="text-base  font-medium text-gray-500 line-through dark:text-gray-300">
-            $25.00
-          </p> */}
           <p className="ml-auto text-lg font-medium text-green-500">
             ৳{pricePerHour}
           </p>

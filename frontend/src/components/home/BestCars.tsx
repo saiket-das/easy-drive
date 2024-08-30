@@ -14,13 +14,17 @@ const BestCars = () => {
     );
   }
 
-  const slicedArray = cars.data.slice(0, 3);
+  const slicedArray = cars?.data.slice(0, 3);
 
   return (
     <div className="grid grid-cols-3 justify-around mb-20 ">
-      {slicedArray.map((carInfo: CarProps) => (
-        <BestCarCard key={carInfo._id} carInfo={carInfo} />
-      ))}
+      {slicedArray?.length > 0 ? (
+        slicedArray.map((carInfo: CarProps) => (
+          <BestCarCard key={carInfo._id} carInfo={carInfo} />
+        ))
+      ) : (
+        <p>No cars available</p>
+      )}
     </div>
   );
 };

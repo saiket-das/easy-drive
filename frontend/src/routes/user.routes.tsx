@@ -1,8 +1,7 @@
 import { Calendar, LayoutDashboard } from "lucide-react";
 import ROUTES from "../constants/routes";
-
-import UserDashboard from "../pages/Dashboard/User/UserDashboard";
-import MyBookings from "../pages/Dashboard/User/MyBookings";
+import UserDashboard from "../pages/Dashboard/user/UserDashboard";
+import MyBookings from "../pages/Dashboard/user/MyBookings";
 
 export const userPaths = [
   {
