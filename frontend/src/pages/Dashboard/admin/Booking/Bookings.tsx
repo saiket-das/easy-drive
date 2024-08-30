@@ -187,7 +187,6 @@ const Bookings = () => {
                 />
               </>
             )}
-            {/* <MakePaymentModal /> */}
           </Space>
         );
       },

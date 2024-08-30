@@ -4,8 +4,8 @@ import { Modal, Button } from "antd";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useMakePaymentMutation } from "../../../../redux/features/payment/paymentApi";
 import { useState } from "react";
-import { BookingInfoProps } from "./ReturnCarModal";
 import { toast } from "sonner";
+import { BookingInfoProps } from "./ReturnCarModal";
 
 interface MakePaymentModalProps {
   isOpen: boolean;
@@ -159,40 +159,3 @@ const MakePaymentModal = ({
 };
 
 export default MakePaymentModal;
-
-/* <AppForm onSubmit={handlePayment} defaultValues={defaultValues}>
-        <AppInput
-          type="text"
-          name="totalCost"
-          label="Total amount"
-          disabled={true}
-        />
-
-        <PaymentElement /> 
-
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: "16px",
-                color: "#424770",
-                "::placeholder": {
-                  color: "#aab7c4",
-                },
-              },
-              invalid: {
-                color: "#9e2146",
-              },
-            },
-          }}
-        />
-        <Button
-          htmlType="submit"
-          style={{ width: "100%", marginTop: "20px" }}
-          size="large"
-        >
-          Pay Now
-        </Button>
-      </AppForm> 
-
-      */
