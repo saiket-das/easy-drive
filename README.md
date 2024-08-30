@@ -1,4 +1,4 @@
-## Camper Shop
+## Easy Drive
 
 #### How to run this repository on your machine
 ###### 1. Clone repository
