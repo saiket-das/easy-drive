@@ -38,8 +38,6 @@ const Signin = () => {
       );
       toast.success("Login Successfully!", { id: toastId, duration: 2000 });
       if (from.includes("admin") || from.includes("user")) {
-        // console.log("Come from:", from);
-        // console.log("Going next:", `/${user.role}/${ROUTES.DASHBOARD}`);
         navigate(`/${user.role}/${ROUTES.DASHBOARD}`);
       } else {
         navigate(from);

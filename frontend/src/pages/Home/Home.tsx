@@ -1,7 +1,14 @@
+import { Hero, Testimonial } from "../../components/home";
+import BestCars from "../../components/home/BestCars";
+// import Footer from "../../components/home/Footer";
+
 const Home = () => {
   return (
     <div>
-      <h1>Home page</h1>
+      <Hero />
+      <BestCars />
+      <Testimonial />
+      {/* <Footer /> */}
     </div>
   );
 };

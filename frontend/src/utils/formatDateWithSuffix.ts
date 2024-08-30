@@ -31,8 +31,3 @@ export function formatDateWithSuffix(dateStr: string): string {
   const dayWithSuffix = day + getDaySuffix(day);
   return `${dayWithSuffix} ${formattedDate.slice(3)}`;
 }
-
-// // Example usage
-// const dateStr = "2024-08-30T18:00:00.000Z";
-// const formattedDate = formatDateWithSuffix(dateStr);
-// console.log(formattedDate); // Output: "30th Aug 2024"

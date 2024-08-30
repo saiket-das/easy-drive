@@ -60,8 +60,6 @@ const createPaymentService = async (payload: PaymentProps) => {
       );
     }
 
-    console.log(paymentResult);
-
     await session.commitTransaction();
     await session.endSession();
     return { clientSecret: paymentIntent.client_secret };

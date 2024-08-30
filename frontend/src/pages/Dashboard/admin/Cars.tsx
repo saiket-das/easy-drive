@@ -159,7 +159,6 @@ const Cars = () => {
 export default Cars;
 
 const UpdateCarInfo = ({ carInfo }: UpdateCarInfoProps) => {
-  // console.log(carInfo);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateCarInfo] = useUpdateCarInfoMutation();
   const [defaultValues, setDefaultValues] = useState({
