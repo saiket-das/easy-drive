@@ -1,6 +1,13 @@
 ## Easy Drive
 
-#### How to run this repository on your machine
+###### Web link
+<pre>https://easy-drive-frontend.vercel.app/</pre>
+###### Server link
+<pre>https://car-rental-backend-flax.vercel.app/</pre>
+
+</br>
+
+### How to run this repository on your machine
 ###### 1. Clone repository
 <pre>git@github.com:saiket-das/easy-drive.git</pre>
 
